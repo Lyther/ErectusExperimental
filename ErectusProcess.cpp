@@ -211,35 +211,22 @@ DWORD64 ErectusProcess::GetModuleBaseAddress(const DWORD pid, const char* module
 	return 0;
 }
 
-bool ErectusProcess::AttachToProcess(const DWORD processId)
-{
-	if(pid == processId)
-		return  true;
-
+bool ErectusProcess::AttachToProcess(DWORD processId) {
+	if(pid == processId) return true;
 	ResetProcessData();
-
-	if (processId == 0)
-		return false;
-	
+	if (processId == 0) return false;
 	pid = processId;
-
 	exe = GetModuleBaseAddress(pid, "Fallout76.exe");
-	if (!exe)
-	{
+	if (!exe) {
 		SetProcessError(2, (const char*)u8"进程状态: 基址无效");
 		return false;
 	}
-
 	handle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-	if (handle == nullptr)
-	{
+	if (handle == nullptr) {
 		SetProcessError(2, (const char*)u8"进程状态: 句柄无效");
 		return false;
 	}
-
 	SetProcessError(1, (const char*)u8"进程状态: 进程已选择");
-
 	processSelected = true;
-	
 	return true;
 }

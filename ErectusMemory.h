@@ -631,11 +631,9 @@ public:
 	float opkNpcPosition[4]{};
 };
 
-class FreezeAp
-{
+class FreezeAp {
 public:
-	BYTE freezeApAsm[0x70]
-	{
+	BYTE freezeApAsm[0x70] {
 		0x8B, 0xD6,                                 //mov edx, esi
 		0x48, 0x8B, 0xC8,                           //mov rcx, rax
 		0x48, 0x8B, 0x5C, 0x24, 0x30,               //mov rbx, [rsp+30]
@@ -668,7 +666,7 @@ public:
 		0xCC, 0xCC, 0xCC, 0xCC,                     //Padding
 		0xCC, 0xCC, 0xCC, 0xCC,                     //Padding
 	};
-	int freezeApEnabled{};
+	int freezeApEnabled;
 };
 
 class TargetLocking

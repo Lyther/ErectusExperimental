@@ -2763,89 +2763,61 @@ void ErectusMemory::UpdateNukeCodes()
 	GetNukeCode(0x00092214, charlieCode);
 }
 
-bool ErectusMemory::FreezeActionPoints(DWORD64* freezeApPage, bool* freezeApPageValid, const bool state)
-{
-	if (!*freezeApPage)
-	{
-		const auto page = AllocEx(sizeof(FreezeAp));
-		if (!page)
-			return false;
-
+bool ErectusMemory::FreezeActionPoints(DWORD64* freezeApPage, bool* freezeApPageValid, bool state) {
+	if (!*freezeApPage) {
+		DWORD64 page = AllocEx(sizeof(FreezeAp));
+		if (!page) return false;
 		*freezeApPage = page;
 	}
 
-	BYTE freezeApOn[]
-	{
-		0x0F, 0x1F, 0x40, 0x00, //nop [rax+00]
-		0x48, 0xBF, //mov rdi (Page)
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //Page (mov rdi)
-		0xFF, 0xE7, //jmp rdi
-		0x0F, 0x1F, 0x40, 0x00, //nop [rax+00]
+	BYTE freezeApOn[] {
+		0x0F, 0x1F, 0x40, 0x00,							//nop [rax+00]
+		0x48, 0xBF,										//mov rdi (Page)
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,	//Page (mov rdi)
+		0xFF, 0xE7,										//jmp rdi
+		0x0F, 0x1F, 0x40, 0x00,							//nop [rax+00]
 	};
 
-	BYTE freezeApOff[]
-	{
-		0x8B, 0xD6, //mov edx, esi
-		0x48, 0x8B, 0xC8, //mov rcx, rax
-		0x48, 0x8B, 0x5C, 0x24, 0x30, //mov rbx, [rsp+30]
-		0x48, 0x8B, 0x74, 0x24, 0x38, //mov rsi, [rsp+38]
-		0x48, 0x83, 0xC4, 0x20, //add rsp, 20
-		0x5F, //pop rdi
+	BYTE freezeApOff[] {
+		0x8B, 0xD6,										//mov edx, esi
+		0x48, 0x8B, 0xC8,								//mov rcx, rax
+		0x48, 0x8B, 0x5C, 0x24, 0x30,					//mov rbx, [rsp+30]
+		0x48, 0x8B, 0x74, 0x24, 0x38,					//mov rsi, [rsp+38]
+		0x48, 0x83, 0xC4, 0x20,							//add rsp, 20
+		0x5F,											//pop rdi
 	};
 
 	BYTE freezeApCheck[sizeof freezeApOff];
-
-	if (!Rpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApCheck, sizeof freezeApCheck))
-		return false;
-
+	if (!Rpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApCheck, sizeof freezeApCheck)) return false;
 	DWORD64 pageCheck;
 	memcpy(&pageCheck, &freezeApCheck[0x6], sizeof(DWORD64));
-
-	if (Utils::Valid(pageCheck) && pageCheck != *freezeApPage)
-	{
-		for (auto i = 0; i < 0x6; i++) if (freezeApCheck[i] != freezeApOn[i])
-			return false;
-		if (!Wpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApOff, sizeof freezeApOff))
-			return false;
+	if (Utils::Valid(pageCheck) && pageCheck != *freezeApPage) {
+		for (auto i = 0; i < 0x6; i++) if (freezeApCheck[i] != freezeApOn[i]) return false;
+		if (!Wpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApOff, sizeof freezeApOff)) return false;
 		FreeEx(pageCheck);
 	}
-
-	if (state)
-	{
+	if (state) {
 		FreezeAp freezeApData;
 		freezeApData.freezeApEnabled = Settings::customLocalPlayerSettings.freezeApEnabled;
-
-		if (*freezeApPageValid)
-		{
+		if (*freezeApPageValid) {
 			FreezeAp freezeApPageCheck;
-			if (!Rpm(*freezeApPage, &freezeApPageCheck, sizeof freezeApPageCheck))
-				return false;
-			if (!memcmp(&freezeApData, &freezeApPageCheck, sizeof freezeApPageCheck))
-				return true;
+			if (!Rpm(*freezeApPage, &freezeApPageCheck, sizeof freezeApPageCheck)) return false;
+			if (!memcmp(&freezeApData, &freezeApPageCheck, sizeof freezeApPageCheck)) return true;
 			return Wpm(*freezeApPage, &freezeApData, sizeof freezeApData);
+		} else {
+			if (!Wpm(*freezeApPage, &freezeApData, sizeof freezeApData)) return false;
+			memcpy(&freezeApOn[0x6], &*freezeApPage, sizeof(DWORD64));
+			if (!Wpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApOn, sizeof freezeApOn)) return false;
+			*freezeApPageValid = true;
 		}
-		if (!Wpm(*freezeApPage, &freezeApData, sizeof freezeApData))
-			return false;
-		memcpy(&freezeApOn[0x6], &*freezeApPage, sizeof(DWORD64));
-		if (!Wpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApOn, sizeof freezeApOn))
-			return false;
-		*freezeApPageValid = true;
-	}
-	else
-	{
-		if (pageCheck == *freezeApPage)
-			Wpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApOff, sizeof freezeApOff);
-
+	} else {
+		if (pageCheck == *freezeApPage) Wpm(ErectusProcess::exe + OFFSET_AV_REGEN, &freezeApOff, sizeof freezeApOff);
 		if (*freezeApPage)
-		{
-			if (FreeEx(*freezeApPage))
-			{
+			if (FreeEx(*freezeApPage)) {
 				*freezeApPage = 0;
 				*freezeApPageValid = false;
 			}
-		}
 	}
-
 	return true;
 }
 
@@ -4254,45 +4226,27 @@ Camera ErectusMemory::GetCameraInfo()
 	return result;
 }
 
-bool ErectusMemory::Rpm(const DWORD64 src, void* dst, const size_t size)
-{
-	return ReadProcessMemory(ErectusProcess::handle, reinterpret_cast<void*>(src), dst, size, nullptr);
+bool ErectusMemory::Rpm(DWORD64 src, void* dst, size_t size) {
+	return ReadProcessMemory(ErectusProcess::handle, (void*)(src), dst, size, NULL);
 }
 
-bool ErectusMemory::Wpm(const DWORD64 dst, void* src, const size_t size)
-{
-	return WriteProcessMemory(ErectusProcess::handle, reinterpret_cast<void*>(dst), src, size, nullptr);
+bool ErectusMemory::Wpm(DWORD64 dst, void* src, size_t size) {
+	return WriteProcessMemory(ErectusProcess::handle, (void*)(dst), src, size, NULL);
 }
 
-DWORD64 ErectusMemory::AllocEx(const size_t size)
-{
-	return 0;
-
-	//this needs to be split, the game scans for PAGE_EXECUTE_READWRITE regions
-	//1) alloc with PAGE_READWRITE
-	//2) write the data
-	//3) switch to PAGE_EXECUTE_READ
-	//4) create the remote thread
-	//see https://reverseengineering.stackexchange.com/questions/3482/does-code-injected-into-process-memory-always-belong-to-a-page-with-rwx-access
-	//return DWORD64(VirtualAllocEx(ErectusProcess::handle, nullptr, size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE));
+DWORD64 ErectusMemory::AllocEx(size_t size) {
+	return DWORD64(VirtualAllocEx(ErectusProcess::handle, NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE));
 }
 
-bool ErectusMemory::FreeEx(const DWORD64 src)
-{
+bool ErectusMemory::FreeEx(DWORD64 src) {
 	return VirtualFreeEx(ErectusProcess::handle, LPVOID(src), 0, MEM_RELEASE);
 }
 
-bool ErectusMemory::VtableSwap(const DWORD64 dst, DWORD64 src)
-{
+bool ErectusMemory::VtableSwap(DWORD64 dst, DWORD64 src) {
 	DWORD oldProtect;
-	if (!VirtualProtectEx(ErectusProcess::handle, reinterpret_cast<void*>(dst), sizeof(DWORD64), PAGE_READWRITE, &oldProtect))
-		return false;
-
-	const auto result = Wpm(dst, &src, sizeof src);
-
+	if (!VirtualProtectEx(ErectusProcess::handle, (void*)(dst), sizeof(DWORD64), PAGE_READWRITE, &oldProtect)) return false;
+	bool result = Wpm(dst, &src, sizeof(src));
 	DWORD buffer;
-	if (!VirtualProtectEx(ErectusProcess::handle, reinterpret_cast<void*>(dst), sizeof(DWORD64), oldProtect, &buffer))
-		return false;
-
+	if (!VirtualProtectEx(ErectusProcess::handle, (void*)(dst), sizeof(DWORD64), oldProtect, &buffer)) return false;
 	return result;
 }

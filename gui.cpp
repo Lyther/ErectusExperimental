@@ -2429,7 +2429,7 @@ bool Gui::Init()
 {
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
-	ImFont* font = io.Fonts->AddFontFromFileTTF((const char*)u8"D:/simyou.ttf", 14.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+	ImFont* font = io.Fonts->AddFontFromFileTTF((const char*)u8"D:/simyou.ttf", 13.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
 
 	if (!ImGui_ImplWin32_Init(App::appHwnd))
 		return false;
