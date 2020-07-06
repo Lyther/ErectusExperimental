@@ -1022,7 +1022,7 @@ std::string ErectusMemory::GetEntityName(const DWORD64 ptr)
 	if (!Rpm(namePtr + 0x18, name.get(), nameSize))
 		return result;
 
-	result = name.get();
+	result = Utils::UTF8ToGBK(name.get());
 	return result;
 }
 
@@ -3314,20 +3314,20 @@ std::string ErectusMemory::GetInstancedItemName(const DWORD64 displayPtr)
 std::unordered_map<int, std::string> ErectusMemory::GetFavoritedWeapons()
 {
 	std::unordered_map<int, std::string> result = {
-		{0, "[?] No Weapon Selected"},
-		{1, "[1] Favorited Item Invalid"},
-		{2, "[2] Favorited Item Invalid"},
-		{3, "[3] Favorited Item Invalid"},
-		{4, "[4] Favorited Item Invalid"},
-		{5, "[5] Favorited Item Invalid"},
-		{6, "[6] Favorited Item Invalid"},
-		{7, "[7] Favorited Item Invalid"},
-		{8, "[8] Favorited Item Invalid"},
-		{9, "[9] Favorited Item Invalid"},
-		{10, "[0] Favorited Item Invalid"},
-		{11, "[-] Favorited Item Invalid"},
-		{12, "[=] Favorited Item Invalid"},
-		{13, "[?] Favorited Item Invalid"},
+		{0, (const char*)u8"[?] 未选择武器"},
+		{1, (const char*)u8"[1] 最爱武器无效"},
+		{2, (const char*)u8"[2] 最爱武器无效"},
+		{3, (const char*)u8"[3] 最爱武器无效"},
+		{4, (const char*)u8"[4] 最爱武器无效"},
+		{5, (const char*)u8"[5] 最爱武器无效"},
+		{6, (const char*)u8"[6] 最爱武器无效"},
+		{7, (const char*)u8"[7] 最爱武器无效"},
+		{8, (const char*)u8"[8] 最爱武器无效"},
+		{9, (const char*)u8"[9] 最爱武器无效"},
+		{10, (const char*)u8"[0] 最爱武器无效"},
+		{11, (const char*)u8"[-] 最爱武器无效"},
+		{12, (const char*)u8"[=] 最爱武器无效"},
+		{13, (const char*)u8"[?] 最爱武器无效"},
 	};
 
 	const auto localPlayerPtr = GetLocalPlayerPtr(true);

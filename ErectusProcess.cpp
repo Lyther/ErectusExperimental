@@ -79,7 +79,7 @@ void ErectusProcess::ResetProcessData()
 	processSelected = false;
 
 	SetProcessMenu();
-	SetProcessError(0, "Process State: No process selected");
+	SetProcessError(0, (const char*)u8"进程状态：未选择进程");
 
 	if (Threads::threadCreationState)
 	{
@@ -161,31 +161,31 @@ bool ErectusProcess::HwndValid(const DWORD processId)
 	pid = processId;
 	if (!pid)
 	{
-		SetProcessError(2, "Process State: PID (Process Id) invalid");
+		SetProcessError(2, (const char*)u8"进程状态: PID (进程ID) 无效");
 		return false;
 	}
 
 	EnumWindows(WNDENUMPROC(HwndEnumFunc), pid);
 	if (hWnd == nullptr)
 	{
-		SetProcessError(2, "Process State: HWND (Window) invalid");
+		SetProcessError(2, (const char*)u8"进程状态: HWND (窗口) 无效");
 		return false;
 	}
 
 	if (IsIconic(hWnd))
 	{
-		SetProcessError(2, "Process State: HWND (Window) minimized");
+		SetProcessError(2, (const char*)u8"进程状态: HWND (窗口) 最小化");
 		return false;
 	}
 
 	RECT rect;
 	if (GetClientRect(hWnd, &rect) == FALSE || rect.right < 16 || rect.bottom < 16)
 	{
-		SetProcessError(2, "Process State: HWND (Window) invalid/minimized");
+		SetProcessError(2, (const char*)u8"进程状态: HWND (窗口) 无效 / 最小化");
 		return false;
 	}
 
-	SetProcessError(1, "Process State: Process selected");
+	SetProcessError(1, (const char*)u8"进程状态：进程已选择");
 	return true;
 }
 
@@ -226,18 +226,18 @@ bool ErectusProcess::AttachToProcess(const DWORD processId)
 	exe = GetModuleBaseAddress(pid, "Fallout76.exe");
 	if (!exe)
 	{
-		SetProcessError(2, "Process State: Base Address invalid");
+		SetProcessError(2, (const char*)u8"进程状态: 基址无效");
 		return false;
 	}
 
 	handle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 	if (handle == nullptr)
 	{
-		SetProcessError(2, "Process State: HANDLE invalid");
+		SetProcessError(2, (const char*)u8"进程状态: 句柄无效");
 		return false;
 	}
 
-	SetProcessError(1, "Process State: Process selected");
+	SetProcessError(1, (const char*)u8"进程状态: 进程已选择");
 
 	processSelected = true;
 	

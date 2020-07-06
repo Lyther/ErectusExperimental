@@ -1,3 +1,5 @@
+#include <string>
+
 #pragma once
 #include <Windows.h>
 
@@ -12,11 +14,12 @@ public:
 
 	static bool Valid(DWORD64 ptr);
 
-
 	static float GetDistance(const float* a1, const float* a2);
 	static float GetDegrees(float* src, float* forward, float* origin);
 	static bool WorldToScreen(const float* view, const float* position, float* screen);
 	static void ProjectView(float* dst, const float* forward, const float* origin, float distance);
+
+	static std::string UTF8ToGBK(const char* strUTF8);
 
 private:
 	static float RadiansToDegrees(float radians);

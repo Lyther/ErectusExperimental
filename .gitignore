@@ -1,3 +1,7 @@
 x64/
 .vs/
 *.DotSettings.*
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user

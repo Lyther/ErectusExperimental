@@ -141,7 +141,7 @@ bool Renderer::Init()
 	if (D3DXCreateSprite(d3D9Device, &d3DxSprite) != D3D_OK)
 		return false;
 
-	if (D3DXCreateFont(d3D9Device, 0, 0, 0, 0, FALSE, DEFAULT_CHARSET, OUT_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "System", &d3DxFont) != D3D_OK)
+	if (D3DXCreateFont(d3D9Device, 0, 0, 0, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "свт╡", &d3DxFont) != D3D_OK)
 		return false;
 
 	return true;

@@ -129,46 +129,46 @@ ScrapLooterSettings defltScrapLooterSettings
 		0x0054E4FA,//Vault 94 Steel
 	},
 	.nameList = {
-		"Black Titanium",//0x00017DE8
-		"Ultracite",//0x00017DE9
-		"Acid",//0x0001FA8C
-		"Aluminum",//0x0001FA91
-		"Ballistic Fiber",//0x0001FA94
-		"Antiseptic",//0x0001FA96
-		"Asbestos",//0x0001FA97
-		"Bone",//0x0001FA98
-		"Ceramic",//0x0001FA9A
-		"Circuitry",//0x0001FA9B
-		"Copper",//0x0001FA9C
-		"Cork",//0x0001FA9D
-		"Crystal",//0x0001FA9F
-		"Fiber Optics",//0x0001FAA0
-		"Fiberglass",//0x0001FAA1
-		"Glass",//0x0001FAA4
-		"Adhesive",//0x0001FAA5
-		"Gold",//0x0001FAA6
-		"Lead",//0x0001FAAD
-		"Leather",//0x0001FAAE
-		"Gear",//0x0001FAB0
-		"Nuclear Material",//0x0001FAB3
-		"Oil",//0x0001FAB4
-		"Plastic",//0x0001FAB7
-		"Rubber",//0x0001FAB9
-		"Silver",//0x0001FABB
-		"Spring",//0x0001FABC
-		"Steel",//0x0001FABD
-		"Wood",//0x0001FAC2
-		"Screw",//0x0003D294
-		"Concrete",//0x0005A0C4
-		"Fertilizer",//0x0005A0C7
-		"Cloth",//0x001223C7
-		"Pure Cobalt Flux",//0x002B9178
-		"Pure Fluorescent Flux",//0x002B917A
-		"Pure Violet Flux",//0x002B917C
-		"Pure Crimson Flux",//0x002B917E
-		"Pure Yellowcake Flux",//0x002B9180
-		"Coal",//0x0031C09A
-		"Vault 94 Steel",//0x0054E4FA
+		(const char*)u8"ºÚîÑ",//0x00017DE8
+		(const char*)u8"·øÉä¼«Áò¿ó",//0x00017DE9
+		(const char*)u8"Ëá",//0x0001FA8C
+		(const char*)u8"ÂÁ",//0x0001FA91
+		(const char*)u8"·Àµ¯ÏËÎ¬",//0x0001FA94
+		(const char*)u8"¿¹¾ú¼Á",//0x0001FA96
+		(const char*)u8"Ê¯ÃŞ",//0x0001FA97
+		(const char*)u8"¹ÇÍ·",//0x0001FA98
+		(const char*)u8"ÌÕ´É",//0x0001FA9A
+		(const char*)u8"µçÂ·Ôª¼ş",//0x0001FA9B
+		(const char*)u8"Í­",//0x0001FA9C
+		(const char*)u8"ÈíÄ¾Èû",//0x0001FA9D
+		(const char*)u8"Ë®¾§",//0x0001FA9F
+		(const char*)u8"¹âÑ§ÏËÎ¬",//0x0001FAA0
+		(const char*)u8"²£Á§ÏËÎ¬",//0x0001FAA1
+		(const char*)u8"²£Á§",//0x0001FAA4
+		(const char*)u8"ğ¤ºÏ¼Á",//0x0001FAA5
+		(const char*)u8"½ğ",//0x0001FAA6
+		(const char*)u8"Ç¦",//0x0001FAAD
+		(const char*)u8"Æ¤¸ï",//0x0001FAAE
+		(const char*)u8"´«¶¯ÂÖ",//0x0001FAB0
+		(const char*)u8"ºË·ÏÁÏ",//0x0001FAB3
+		(const char*)u8"ÓÍ",//0x0001FAB4
+		(const char*)u8"ËÜÁÏ",//0x0001FAB7
+		(const char*)u8"Ïğ½º",//0x0001FAB9
+		(const char*)u8"Òø",//0x0001FABB
+		(const char*)u8"µ¯»É",//0x0001FABC
+		(const char*)u8"¸ÖÌú",//0x0001FABD
+		(const char*)u8"Ä¾Í·",//0x0001FAC2
+		(const char*)u8"ÂİË¿¶¤",//0x0003D294
+		(const char*)u8"»ìÄıÍÁ",//0x0005A0C4
+		(const char*)u8"·ÊÁÏ",//0x0005A0C7
+		(const char*)u8"²¼",//0x001223C7
+		(const char*)u8"´¿¾»îÜÀ¶É«ÈÜ¼Á",//0x002B9178
+		(const char*)u8"´¿¾»Ó«¹âÈÜ¼Á",//0x002B917A
+		(const char*)u8"´¿¾»×ÏÉ«ÈÜ¼Á",//0x002B917C
+		(const char*)u8"´¿¾»ĞÉºìÉ«ÈÜ¼Á",//0x002B917E
+		(const char*)u8"´¿¾»»Æ±ıÈÜ¼Á",//0x002B9180
+		(const char*)u8"Ãº",//0x0031C09A
+		(const char*)u8"94±ÜÄÑËù¸Ö",//0x0054E4FA
 	},
 };
 
@@ -348,75 +348,75 @@ HarvesterSettings harvesterDefaults
 		0x0008E922,//Mothman Egg
 	},
 	.nameList = {
-		"Raw Crimson Flux",
-		"Raw Cobalt Flux",
-		"Raw Yellowcake Flux",
-		"Raw Fluorescent Flux",
-		"Raw Violet Flux",
-		"Black Titanium Ore",
-		"Aluminum Ore",
-		"Gold Ore",
-		"Copper Ore",
-		"Iron Ore",
-		"Lead Ore",
-		"Silver Ore",
-		"Uranium Ore",
-		"Ultracite Ore",
-		"Coal",
-		"Unrefined Coal",
-		"Irradiated Ore",
-		"Wild Blackberry",
-		"Carrot",
-		"Corn",
-		"Gourd",
-		"Melon",
-		"Mutfruit",
-		"Razorgrain",
-		"Tato",
-		"Junk Pile",
-		"Wood Scraps",
-		"Concrete Scrap",
-		"Waste Oil",
-		"Waste Acid",
-		"Raw Crystal",
-		"Raw Fertilizer",
-		"Cranberries",
-		"Diseased Cranberries",
-		"Tarberry",
-		"Firecracker Berry",
-		"Melon Blossom",
-		"Tato Flower",
-		"Carrot Flower",
-		"Gourd Blossom",
-		"Brain Fungus",
-		"Glowing Fungus",
-		"Bloodleaf",
-		"Silt Bean",
-		"Soot Flower",
-		"Toxic Soot Flower",
-		"Thistle",
-		"Rhododendron Flower",
-		"Firecap",
-		"Snaptail Reed",
-		"Starlight Berries",
-		"Mutated Fern Flower",
-		"Lure Weed",
-		"Aster",
-		"Blight",
-		"Fever Blossom",
-		"Kaleidopore Flower",
-		"Ash Rose",
-		"Gut Shroom",
-		"Pumpkin",
-		"Ginseng Root",
-		"Digested Goo",
-		"Strangler Bloom",
-		"Strangler Pod",
-		"Swamp Plant",
-		"Bleach Dogwood",
-		"Megasloth Mushroom",
-		"Glowing Resin",
-		"Mothman Egg",
+		(const char*)u8"ĞÉºìÉ«ÈÜ¼ÁÔ­ÁÏ",
+		(const char*)u8"îÜÀ¶É«ÈÜ¼ÁÔ­ÁÏ",
+		(const char*)u8"»Æ±ıÈÜ¼ÁÔ­ÁÏ",
+		(const char*)u8"Ó«¹âÈÜ¼ÁÔ­ÁÏ",
+		(const char*)u8"×ÏÉ«ÈÜ¼ÁÔ­ÁÏ",
+		(const char*)u8"ºÚîÑ¿ó",
+		(const char*)u8"ÂÁ¿ó",
+		(const char*)u8"½ğ¿ó",
+		(const char*)u8"Í­¿ó",
+		(const char*)u8"Ìú¿ó",
+		(const char*)u8"Ç¦¿ó",
+		(const char*)u8"Òø¿ó",
+		(const char*)u8"ÓË¿ó",
+		(const char*)u8"·øÉä¼«Áò¿ó",
+		(const char*)u8"Ãº",
+		(const char*)u8"Î´¾«Á¶Ãº",
+		(const char*)u8"·øÉäÎÛÈ¾µÄ¿ó",
+		(const char*)u8"ºÚİ®",
+		(const char*)u8"ºúÂÜ²·",
+		(const char*)u8"ÓñÃ×",
+		(const char*)u8"ºùÂ«",
+		(const char*)u8"¹Ï",
+		(const char*)u8"±äÖÖ¹û",
+		(const char*)u8"µ¶Æ¬¹È",
+		(const char*)u8"ÁåÊí",
+		(const char*)u8"Èâ¶Ñ",
+		(const char*)u8"Ä¾²Ä·Ö½âËéÆ¬",
+		(const char*)u8"»ìÄıÍÁËéÆ¬",
+		(const char*)u8"·ÏÓÍ",
+		(const char*)u8"·ÏËá",
+		(const char*)u8"Ë®¾§ËéÆ¬",
+		(const char*)u8"·ÊÁÏÔ­ÁÏ",
+		(const char*)u8"ÂûÔ½İ®",
+		(const char*)u8"È¾²¡µÄÂûÔ½İ®",
+		(const char*)u8"Ëşİ®",
+		(const char*)u8"±¬Öñ½¬¹û",
+		(const char*)u8"Ò°¹Ï»¨",
+		(const char*)u8"ÁåÊí»¨",
+		(const char*)u8"ºúÂÜ²·»¨",
+		(const char*)u8"Ò°ºùÂ«»¨",
+		(const char*)u8"´óÄÔÕæ¾ú",
+		(const char*)u8"·¢¹âÕæ¾ú",
+		(const char*)u8"ÑªºìÒ¶",
+		(const char*)u8"ÓÙÄà¶¹",
+		(const char*)u8"ÑÌÌ¿»¨",
+		(const char*)u8"ÓĞ¶¾µÄÑÌÌ¿»¨",
+		(const char*)u8"¼»",
+		(const char*)u8"¶Å¾é»¨",
+		(const char*)u8"ÁÒÑæ¹½",
+		(const char*)u8"ÕÛÎ²²İ",
+		(const char*)u8"ĞÇ¹âİ®",
+		(const char*)u8"±äÖÖŞ§",
+		(const char*)u8"Lure Weed",
+		(const char*)u8"×ÏÔ·",
+		(const char*)u8"¿İÎ®µÄ¹½Àà",
+		(const char*)u8"¿ñÈÈ»¨",
+		(const char*)u8"Kaleidopore Flower",
+		(const char*)u8"»Ò½ıÃµ¹å",
+		(const char*)u8"Gut Shroom",
+		(const char*)u8"ÄÏ¹Ï",
+		(const char*)u8"ÈË²Î¸ù",
+		(const char*)u8"Digested Goo",
+		(const char*)u8"½ÊÉ±ÌÙ»¨",
+		(const char*)u8"½ÊÉ±ÌÙ¶¹¼Ô",
+		(const char*)u8"ÄàÕÓÖ²Öê",
+		(const char*)u8"Æ¯°×É½ÜïİÇ",
+		(const char*)u8"Megasloth Mushroom",
+		(const char*)u8"·¢¹âÊ÷Ö¬",
+		(const char*)u8"Ìì¶êÈËÂÑ",
 	},
 };
 

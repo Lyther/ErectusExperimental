@@ -27,7 +27,6 @@ void Gui::Render()
 	OverlayMenu();
 	RenderOverlay();
 
-
 	ImGui::EndFrame();
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
@@ -294,19 +293,19 @@ void Gui::RenderActors(const CustomEntry& entry, const OverlaySettingsA& setting
 
 	std::string itemText;
 	if (settings.showName && showHealthText && settings.showDistance) //Name, Health, Distance
-		itemText = fmt::format("{0}\n{1:d} hp [{2:d} m]", entry.name, health, normalDistance);
+		itemText = fmt::format("{0}\n{1:d} 生命值 [{2:d} 米]", entry.name, health, normalDistance);
 	else if (settings.showName && showHealthText && !settings.showDistance) //Name, Health
-		itemText = fmt::format("{0}\n{1:d} hp", entry.name, health);
+		itemText = fmt::format("{0}\n{1:d} 生命值", entry.name, health);
 	else if (settings.showName && !showHealthText && settings.showDistance) //Name, Distance
-		itemText = fmt::format("{0}\n[{1:d} m]", entry.name, normalDistance);
+		itemText = fmt::format("{0}\n[{1:d} 米]", entry.name, normalDistance);
 	else if (!settings.showName && showHealthText && settings.showDistance) //Health, Distance
-		itemText = fmt::format("{0:d} hp [{1:d} m]", health, normalDistance);
+		itemText = fmt::format("{0:d} 生命值 [{1:d} 米]", health, normalDistance);
 	else if (settings.showName && !showHealthText && !settings.showDistance) //Name
 		itemText = entry.name;
 	else if (!settings.showName && showHealthText && !settings.showDistance) //Health
-		itemText = fmt::format("{:d} hp", health);
+		itemText = fmt::format("{:d} 生命值", health);
 	else if (!settings.showName && !showHealthText && settings.showDistance) //Distance
-		itemText = fmt::format("[{:d} m]", normalDistance);
+		itemText = fmt::format("[{:d} 米]", normalDistance);
 
 	if (!itemText.empty())
 	{
@@ -393,11 +392,11 @@ void Gui::RenderItems(const CustomEntry& entry, const OverlaySettingsB& settings
 
 	std::string itemText{};
 	if (settings.showName && settings.showDistance)
-		itemText = fmt::format("{0}\n[{1:d} m]", entry.name, normalDistance);
+		itemText = fmt::format("{0}\n[{1:d} 米]", entry.name, normalDistance);
 	else if (settings.showName && !settings.showDistance)
 		itemText = entry.name;
 	else if (!settings.showName && settings.showDistance)
-		itemText = fmt::format("[{0:d} m]", normalDistance);
+		itemText = fmt::format("[{0:d} 米]", normalDistance);
 
 	if (!itemText.empty())
 	{
@@ -421,13 +420,13 @@ void Gui::RenderInfoBox()
 	if (Settings::utilities.debugPlayer) {
 		auto localPlayer = ErectusMemory::GetLocalPlayerInfo();
 
-		featureText = fmt::format("Player FormId: {:08x}", localPlayer.formId);
+		featureText = fmt::format("玩家FormId: {:08x}", localPlayer.formId);
 		infoTexts.emplace_back(featureText, true);
 
-		featureText = fmt::format("STASH FormId: {:08x}", localPlayer.stashFormId);
+		featureText = fmt::format("储物箱FormId: {:08x}", localPlayer.stashFormId);
 		infoTexts.emplace_back(featureText, true);
 
-		featureText = fmt::format("Cell FormId: {:08x}", localPlayer.cellFormId);
+		featureText = fmt::format("区块FormId: {:08x}", localPlayer.cellFormId);
 		infoTexts.emplace_back(featureText, true);
 
 		featureText = fmt::format("X: {:f}", localPlayer.position[0]);
@@ -439,69 +438,69 @@ void Gui::RenderInfoBox()
 		featureText = fmt::format("Z: {:f}", localPlayer.position[2]);
 		infoTexts.emplace_back(featureText, true);
 
-		featureText = fmt::format("Yaw: {:f}", localPlayer.yaw);
+		featureText = fmt::format("偏转: {:f}", localPlayer.yaw);
 		infoTexts.emplace_back(featureText, true);
 
-		featureText = fmt::format("Pitch: {:f}", localPlayer.pitch);
+		featureText = fmt::format("倾斜: {:f}", localPlayer.pitch);
 		infoTexts.emplace_back(featureText, true);
 
-		featureText = fmt::format("Health: {:f}", localPlayer.currentHealth);
+		featureText = fmt::format("生命值: {:f}", localPlayer.currentHealth);
 		infoTexts.emplace_back(featureText, true);
 	}
 
 	if (Settings::infobox.drawScrapLooterStatus)
 	{
-		featureText = fmt::format("Scrap Looter (Automatic): {:d}", static_cast<int>(Settings::scrapLooter.autoLootingEnabled));
+		featureText = fmt::format("材料搜刮 (自动): {:d}", static_cast<int>(Settings::scrapLooter.autoLootingEnabled));
 		featureState = Settings::scrapLooter.autoLootingEnabled;
 		infoTexts.emplace_back(featureText, featureState);
 	}
 
 	if (Settings::infobox.drawItemLooterStatus)
 	{
-		featureText = fmt::format("Item Looter (Automatic): {:d}", static_cast<int>(Settings::itemLooter.autoLootingEnabled));
+		featureText = fmt::format("物品搜刮 (自动): {:d}", static_cast<int>(Settings::itemLooter.autoLootingEnabled));
 		featureState = Settings::itemLooter.autoLootingEnabled;
 		infoTexts.emplace_back(featureText, featureState);
 	}
 
 	if (Settings::infobox.drawNpcLooterStatus)
 	{
-		featureText = fmt::format("NPC Looter (76m Distance Limit): {:d}", static_cast<int>(Settings::npcLooter.enabled));
+		featureText = fmt::format("NPC搜刮 (76m 距离限制): {:d}", static_cast<int>(Settings::npcLooter.enabled));
 		featureState = Settings::npcLooter.enabled;
 		infoTexts.emplace_back(featureText, featureState);
 	}
 
 	if (Settings::infobox.drawContainerLooterStatus)
 	{
-		featureText = fmt::format("Container Looter (6m Distance Limit): {:d}", static_cast<int>(Settings::containerLooter.enabled));
+		featureText = fmt::format("容器搜刮 (6m 距离限制): {:d}", static_cast<int>(Settings::containerLooter.enabled));
 		featureState = Settings::containerLooter.enabled;
 		infoTexts.emplace_back(featureText, featureState);
 	}
 
 	if (Settings::infobox.drawHarvesterStatus)
 	{
-		featureText = fmt::format("Flora Harvester (6m Distance Limit): {:d}", static_cast<int>(Settings::harvester.enabled));
+		featureText = fmt::format("植物群系收获 (6m 距离限制): {:d}", static_cast<int>(Settings::harvester.enabled));
 		featureState = Settings::harvester.enabled;
 		infoTexts.emplace_back(featureText, featureState);
 	}
 
 	if (Settings::infobox.drawPositionSpoofingStatus)
 	{
-		featureText = fmt::format("Position Spoofing (Active): {0:d} (Height: {1:d})", static_cast<int>(Threads::positionSpoofingToggle), Settings::customLocalPlayerSettings.positionSpoofingHeight);
+		featureText = fmt::format("位置伪造 (激活): {0:d} (高度: {1:d})", static_cast<int>(Threads::positionSpoofingToggle), Settings::customLocalPlayerSettings.positionSpoofingHeight);
 		featureState = ErectusMemory::InsideInteriorCell() ? false : Settings::customLocalPlayerSettings.positionSpoofingEnabled;
 		infoTexts.emplace_back(featureText, featureState);
 	}
 
 	if (Settings::infobox.drawNukeCodes)
 	{
-		featureText = format("{} - Alpha", fmt::join(ErectusMemory::alphaCode, " "));
+		featureText = format("{} - A点", fmt::join(ErectusMemory::alphaCode, " "));
 		featureState = ErectusMemory::alphaCode == std::array<int, 8>{} ? false : true;
 		infoTexts.emplace_back(featureText, featureState);
 
-		featureText = format("{} - Bravo", fmt::join(ErectusMemory::bravoCode, " "));
+		featureText = format("{} - B点", fmt::join(ErectusMemory::bravoCode, " "));
 		featureState = ErectusMemory::bravoCode == std::array<int, 8>{} ? false : true;
 		infoTexts.emplace_back(featureText, featureState);
 
-		featureText = format("{} - Charlie", fmt::join(ErectusMemory::charlieCode, " "));
+		featureText = format("{} - C点", fmt::join(ErectusMemory::charlieCode, " "));
 		featureState = ErectusMemory::charlieCode == std::array<int, 8>{} ? false : true;
 		infoTexts.emplace_back(featureText, featureState);
 	}
@@ -526,29 +525,27 @@ void Gui::ProcessMenu()
 	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(App::windowSize[0]), static_cast<float>(App::windowSize[1])));
 	ImGui::SetNextWindowCollapsed(false);
 
-	if (ImGui::Begin("Erectus - Process Menu", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin((const char*)u8"Erectus - 主菜单", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
 	{
 		if (ImGui::BeginMenuBar())
 		{
-			if (ImGui::MenuItem("Exit"))
+			if (ImGui::MenuItem((const char*)u8"退出"))
 				App::CloseWnd();
-			if (ImGui::MenuItem("Overlay Menu"))
+			if (ImGui::MenuItem((const char*)u8"图层菜单"))
 				App::SetOverlayMenu();
 			if (!ErectusProcess::pid)
 			{
 				ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
 				ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
 
-				ImGui::MenuItem("Overlay");
+				ImGui::MenuItem((const char*)u8"图层");
 
 				ImGui::PopStyleVar();
 				ImGui::PopItemFlag();
 			}
 			else
 			{
-				if (ImGui::MenuItem("Overlay Menu"))
-					App::SetOverlayMenu();
-				if (ImGui::MenuItem("Overlay"))
+				if (ImGui::MenuItem((const char*)u8"图层"))
 					App::SetOverlayPosition(false, true);
 			}
 			ImGui::EndMenuBar();
@@ -556,12 +553,12 @@ void Gui::ProcessMenu()
 
 		ImGui::SetNextItemWidth(-16.f);
 
-		auto processText = ErectusProcess::pid ? "Fallout76.exe - " + std::to_string(ErectusProcess::pid) : "No  process selected.";
-		if (ImGui::BeginCombo("###ProcessList", processText.c_str()))
+		auto processText = ErectusProcess::pid ? "Fallout76.exe - " + std::to_string(ErectusProcess::pid) : (const char*)u8"未选择进程.";
+		if (ImGui::BeginCombo((const char*)u8"###进程列表", processText.c_str()))
 		{
 			for (auto item : ErectusProcess::GetProcesses())
 			{
-				processText = item ? "Fallout76.exe - " + std::to_string(item) : "NONE";
+				processText = item ? "Fallout76.exe - " + std::to_string(item) : (const char*)u8"无";
 				if (ImGui::Selectable(processText.c_str()))
 					ErectusProcess::AttachToProcess(item);
 			}
@@ -589,34 +586,34 @@ void Gui::ProcessMenu()
 		ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
 		ImGui::Columns(2);
 		ImGui::Separator();
-		ImGui::Text("Overlay Menu Keybind");
+		ImGui::Text((const char*)u8"图层菜单快捷键");
 		ImGui::NextColumn();
-		ImGui::Text("CTRL+ENTER");
-		ImGui::NextColumn();
-		ImGui::Separator();
-		ImGui::Text("ImGui (D3D9) FPS");
-		ImGui::NextColumn();
-		ImGui::Text("%.1f", ImGui::GetIO().Framerate);
+		ImGui::Text((const char*)u8"CTRL+ENTER");
 		ImGui::NextColumn();
 		ImGui::Separator();
-		ImGui::Text("PID (Process Id)");
+		ImGui::Text((const char*)u8"刷新率");
 		ImGui::NextColumn();
-		ImGui::Text("%lu", ErectusProcess::pid);
-		ImGui::NextColumn();
-		ImGui::Separator();
-		ImGui::Text("HWND (Window)");
-		ImGui::NextColumn();
-		ImGui::Text("%p", ErectusProcess::hWnd);
+		ImGui::Text((const char*)u8"%.1f", ImGui::GetIO().Framerate);
 		ImGui::NextColumn();
 		ImGui::Separator();
-		ImGui::Text("Base Address");
+		ImGui::Text((const char*)u8"进程ID");
 		ImGui::NextColumn();
-		ImGui::Text("%016llX", ErectusProcess::exe);
+		ImGui::Text((const char*)u8"%lu", ErectusProcess::pid);
 		ImGui::NextColumn();
 		ImGui::Separator();
-		ImGui::Text("HANDLE");
+		ImGui::Text((const char*)u8"硬件识别码");
 		ImGui::NextColumn();
-		ImGui::Text("%p", ErectusProcess::handle);
+		ImGui::Text((const char*)u8"%p", ErectusProcess::hWnd);
+		ImGui::NextColumn();
+		ImGui::Separator();
+		ImGui::Text((const char*)u8"基址");
+		ImGui::NextColumn();
+		ImGui::Text((const char*)u8"%016llX", ErectusProcess::exe);
+		ImGui::NextColumn();
+		ImGui::Separator();
+		ImGui::Text((const char*)u8"句柄");
+		ImGui::NextColumn();
+		ImGui::Text((const char*)u8"%p", ErectusProcess::handle);
 		ImGui::Columns(1);
 		ImGui::Separator();
 		ImGui::PopItemFlag();
@@ -692,588 +689,588 @@ void Gui::SmallButtonToggle(const char* label, bool* state)
 
 void Gui::OverlayMenuTabEsp()
 {
-	if (ImGui::BeginTabItem("ESP###ESPTab"))
+	if (ImGui::BeginTabItem((const char*)u8"透视###透视页面"))
 	{
-		if (ImGui::CollapsingHeader("Player ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"玩家透视设置"))
 		{
-			ButtonToggle("Player ESP Enabled", &Settings::playerSettings.enabled);
+			ButtonToggle((const char*)u8"玩家透视已启动", &Settings::playerSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###PlayerSettingsEnabledDistance", &Settings::playerSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###玩家透视距离", &Settings::playerSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Draw Living Players", &Settings::playerSettings.drawAlive);
+			ButtonToggle((const char*)u8"绘制存活玩家", &Settings::playerSettings.drawAlive);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###PlayerSettingsAliveColor", Settings::playerSettings.aliveColor);
+			ImGui::ColorEdit3((const char*)u8"###存活玩家颜色", Settings::playerSettings.aliveColor);
 			Utils::ValidateRgb(Settings::playerSettings.aliveColor);
 
-			ButtonToggle("Draw Downed Players", &Settings::playerSettings.drawDowned);
+			ButtonToggle((const char*)u8"绘制倒地玩家", &Settings::playerSettings.drawDowned);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###PlayerSettingsDownedColor", Settings::playerSettings.downedColor);
+			ImGui::ColorEdit3((const char*)u8"###倒地玩家颜色", Settings::playerSettings.downedColor);
 			Utils::ValidateRgb(Settings::playerSettings.downedColor);
 
-			ButtonToggle("Draw Dead Players", &Settings::playerSettings.drawDead);
+			ButtonToggle((const char*)u8"绘制死亡玩家", &Settings::playerSettings.drawDead);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###PlayerSettingsDeadColor", Settings::playerSettings.deadColor);
+			ImGui::ColorEdit3((const char*)u8"###死亡玩家颜色", Settings::playerSettings.deadColor);
 			Utils::ValidateRgb(Settings::playerSettings.deadColor);
 
-			ButtonToggle("Draw Unknown Players", &Settings::playerSettings.drawUnknown);
+			ButtonToggle((const char*)u8"绘制未知玩家", &Settings::playerSettings.drawUnknown);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###PlayerSettingsUnknownColor", Settings::playerSettings.unknownColor);
+			ImGui::ColorEdit3((const char*)u8"###未知玩家颜色", Settings::playerSettings.unknownColor);
 			Utils::ValidateRgb(Settings::playerSettings.unknownColor);
 
-			ButtonToggle("Draw Enabled Players", &Settings::playerSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用玩家", &Settings::playerSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###PlayerSettingsEnabledAlpha", &Settings::playerSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用玩家不透明度", &Settings::playerSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Players", &Settings::playerSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用玩家", &Settings::playerSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###PlayerSettingsDisabledAlpha", &Settings::playerSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用玩家不透明度", &Settings::playerSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Players", &Settings::playerSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称玩家", &Settings::playerSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Players", &Settings::playerSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称玩家", &Settings::playerSettings.drawUnnamed);
 
-			ButtonToggle("Show Player Name", &Settings::playerSettings.showName);
+			ButtonToggle((const char*)u8"显示玩家名称", &Settings::playerSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Player Distance", &Settings::playerSettings.showDistance);
+			ButtonToggle((const char*)u8"显示玩家距离", &Settings::playerSettings.showDistance);
 
-			ButtonToggle("Show Player Health", &Settings::playerSettings.showHealth);
+			ButtonToggle((const char*)u8"显示玩家血量", &Settings::playerSettings.showHealth);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Dead Player Health", &Settings::playerSettings.showDeadHealth);
+			ButtonToggle((const char*)u8"显示死亡玩家血量", &Settings::playerSettings.showDeadHealth);
 
-			ButtonToggle("Player Text Shadowed", &Settings::playerSettings.textShadowed);
+			ButtonToggle((const char*)u8"玩家信息阴影", &Settings::playerSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Player Text Centered", &Settings::playerSettings.textCentered);
+			ButtonToggle((const char*)u8"玩家信息居中", &Settings::playerSettings.textCentered);
 		}
 
-		if (ImGui::CollapsingHeader("NPC ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"NPC透视设置"))
 		{
-			ButtonToggle("NPC ESP Enabled", &Settings::npcSettings.enabled);
+			ButtonToggle((const char*)u8"NPC透视已启用", &Settings::npcSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###NpcSettingsEnabledDistance", &Settings::npcSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###NPC透视距离", &Settings::npcSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Draw Living NPCs", &Settings::npcSettings.drawAlive);
+			ButtonToggle((const char*)u8"绘制存活NPC", &Settings::npcSettings.drawAlive);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###NpcSettingsAliveColor", Settings::npcSettings.aliveColor);
+			ImGui::ColorEdit3((const char*)u8"###存活NPC颜色", Settings::npcSettings.aliveColor);
 			Utils::ValidateRgb(Settings::npcSettings.aliveColor);
 
-			ButtonToggle("Draw Downed NPCs", &Settings::npcSettings.drawDowned);
+			ButtonToggle((const char*)u8"绘制倒地NPC", &Settings::npcSettings.drawDowned);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###NpcSettingsDownedColor", Settings::npcSettings.downedColor);
+			ImGui::ColorEdit3((const char*)u8"###倒地NPC颜色", Settings::npcSettings.downedColor);
 			Utils::ValidateRgb(Settings::npcSettings.downedColor);
 
-			ButtonToggle("Draw Dead NPCs", &Settings::npcSettings.drawDead);
+			ButtonToggle((const char*)u8"绘制死亡NPC", &Settings::npcSettings.drawDead);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###NpcSettingsDeadColor", Settings::npcSettings.deadColor);
+			ImGui::ColorEdit3((const char*)u8"###死亡NPC颜色", Settings::npcSettings.deadColor);
 			Utils::ValidateRgb(Settings::npcSettings.deadColor);
 
-			ButtonToggle("Draw Unknown NPCs", &Settings::npcSettings.drawUnknown);
+			ButtonToggle((const char*)u8"绘制未知NPC", &Settings::npcSettings.drawUnknown);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###NpcSettingsUnknownColor", Settings::npcSettings.unknownColor);
+			ImGui::ColorEdit3((const char*)u8"###未知NPC颜色", Settings::npcSettings.unknownColor);
 			Utils::ValidateRgb(Settings::npcSettings.unknownColor);
 
-			ButtonToggle("Draw Enabled NPCs", &Settings::npcSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用NPC", &Settings::npcSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###NpcSettingsEnabledAlpha", &Settings::npcSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用NPC不透明度", &Settings::npcSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled NPCs", &Settings::npcSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用NPC", &Settings::npcSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###NpcSettingsDisabledAlpha", &Settings::npcSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用NPC不透明度", &Settings::npcSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named NPCs", &Settings::npcSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称NPC", &Settings::npcSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed NPCs", &Settings::npcSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称NPC", &Settings::npcSettings.drawUnnamed);
 
-			ButtonToggle("Show NPC Name", &Settings::npcSettings.showName);
+			ButtonToggle((const char*)u8"显示NPC名称", &Settings::npcSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show NPC Distance", &Settings::npcSettings.showDistance);
+			ButtonToggle((const char*)u8"显示NPC距离", &Settings::npcSettings.showDistance);
 
-			ButtonToggle("Show NPC Health", &Settings::npcSettings.showHealth);
+			ButtonToggle((const char*)u8"显示NPC血量", &Settings::npcSettings.showHealth);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Dead NPC Health", &Settings::npcSettings.showDeadHealth);
+			ButtonToggle((const char*)u8"显示死亡NPC血量", &Settings::npcSettings.showDeadHealth);
 
-			ButtonToggle("NPC Text Shadowed", &Settings::npcSettings.textShadowed);
+			ButtonToggle((const char*)u8"NPC信息阴影", &Settings::npcSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("NPC Text Centered", &Settings::npcSettings.textCentered);
+			ButtonToggle((const char*)u8"NPC信息居中", &Settings::npcSettings.textCentered);
 
-			ButtonToggle("Always Draw Living 1* NPCs", &Settings::customLegendarySettings.overrideLivingOneStar);
+			ButtonToggle((const char*)u8"总是绘制一星传奇NPC", &Settings::customLegendarySettings.overrideLivingOneStar);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###LivingOneStarColor", Settings::customLegendarySettings.livingOneStarColor);
+			ImGui::ColorEdit3((const char*)u8"###存活一星传奇颜色", Settings::customLegendarySettings.livingOneStarColor);
 			Utils::ValidateRgb(Settings::customLegendarySettings.livingOneStarColor);
 
-			ButtonToggle("Always Draw Dead 1* NPCs", &Settings::customLegendarySettings.overrideDeadOneStar);
+			ButtonToggle((const char*)u8"总是绘制死亡一星传奇NPC", &Settings::customLegendarySettings.overrideDeadOneStar);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###DeadOneStarColor", Settings::customLegendarySettings.deadOneStarColor);
+			ImGui::ColorEdit3((const char*)u8"###死亡一星传奇颜色", Settings::customLegendarySettings.deadOneStarColor);
 			Utils::ValidateRgb(Settings::customLegendarySettings.deadOneStarColor);
 
-			ButtonToggle("Always Draw Living 2* NPCs", &Settings::customLegendarySettings.overrideLivingTwoStar);
+			ButtonToggle((const char*)u8"总是绘制二星传奇NPC", &Settings::customLegendarySettings.overrideLivingTwoStar);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###LivingTwoStarColor", Settings::customLegendarySettings.livingTwoStarColor);
+			ImGui::ColorEdit3((const char*)u8"###存活二星传奇颜色", Settings::customLegendarySettings.livingTwoStarColor);
 			Utils::ValidateRgb(Settings::customLegendarySettings.livingTwoStarColor);
 
-			ButtonToggle("Always Draw Dead 2* NPCs", &Settings::customLegendarySettings.overrideDeadTwoStar);
+			ButtonToggle((const char*)u8"总是绘制死亡二星传奇NPC", &Settings::customLegendarySettings.overrideDeadTwoStar);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###DeadTwoStarColor", Settings::customLegendarySettings.deadTwoStarColor);
+			ImGui::ColorEdit3((const char*)u8"###死亡二星传奇颜色", Settings::customLegendarySettings.deadTwoStarColor);
 			Utils::ValidateRgb(Settings::customLegendarySettings.deadTwoStarColor);
 
-			ButtonToggle("Always Draw Living 3* NPCs", &Settings::customLegendarySettings.overrideLivingThreeStar);
+			ButtonToggle((const char*)u8"总是绘制三星传奇NPC", &Settings::customLegendarySettings.overrideLivingThreeStar);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###LivingThreeStarColor", Settings::customLegendarySettings.livingThreeStarColor);
+			ImGui::ColorEdit3((const char*)u8"###存活三星传奇颜色", Settings::customLegendarySettings.livingThreeStarColor);
 			Utils::ValidateRgb(Settings::customLegendarySettings.livingThreeStarColor);
 
-			ButtonToggle("Always Draw Dead 3* NPCs", &Settings::customLegendarySettings.overrideDeadThreeStar);
+			ButtonToggle((const char*)u8"总是绘制死亡三星传奇NPC", &Settings::customLegendarySettings.overrideDeadThreeStar);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###DeadThreeStarColor", Settings::customLegendarySettings.deadThreeStarColor);
+			ImGui::ColorEdit3((const char*)u8"###死亡三星传奇颜色", Settings::customLegendarySettings.deadThreeStarColor);
 			Utils::ValidateRgb(Settings::customLegendarySettings.deadThreeStarColor);
 
-			LargeButtonToggle("Hide NPCs in the Settler Faction", &Settings::customExtraNpcSettings.hideSettlerFaction);
-			LargeButtonToggle("Hide NPCs in the Crater Raider Faction", &Settings::customExtraNpcSettings.hideCraterRaiderFaction);
-			LargeButtonToggle("Hide NPCs in the Diehards Faction", &Settings::customExtraNpcSettings.hideDieHardFaction);
-			LargeButtonToggle("Hide NPCs in the Secret Service Faction", &Settings::customExtraNpcSettings.hideSecretServiceFaction);
+			LargeButtonToggle((const char*)u8"隐藏基金会NPC", &Settings::customExtraNpcSettings.hideSettlerFaction);
+			LargeButtonToggle((const char*)u8"隐藏火山口NPC", &Settings::customExtraNpcSettings.hideCraterRaiderFaction);
+			LargeButtonToggle((const char*)u8"隐藏死硬帮NPC", &Settings::customExtraNpcSettings.hideDieHardFaction);
+			LargeButtonToggle((const char*)u8"隐藏秘密服务NPC", &Settings::customExtraNpcSettings.hideSecretServiceFaction);
 
-			LargeButtonToggle("NPC Blacklist Enabled", &Settings::customExtraNpcSettings.useNpcBlacklist);
-			if (ImGui::CollapsingHeader("NPC Blacklist"))
+			LargeButtonToggle((const char*)u8"NPC黑名单已启用", &Settings::customExtraNpcSettings.useNpcBlacklist);
+			if (ImGui::CollapsingHeader((const char*)u8"NPC黑名单"))
 			{
 				for (auto i = 0; i < 64; i++)
 				{
-					auto toggleLabel = fmt::format("NPC Blacklist: {:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"NPC黑名单: {:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::customExtraNpcSettings.npcBlacklistEnabled[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###NPCBlacklist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###NPC黑名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::customExtraNpcSettings.npcBlacklist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Container ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"容器透视设置"))
 		{
-			ButtonToggle("Container ESP Enabled", &Settings::containerSettings.enabled);
+			ButtonToggle((const char*)u8"容器透视已启用", &Settings::containerSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ContainerSettingsEnabledDistance", &Settings::containerSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###容器启用距离", &Settings::containerSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###ContainerSettingsColor", Settings::containerSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###容器颜色", Settings::containerSettings.color);
 			Utils::ValidateRgb(Settings::containerSettings.color);
 
-			ButtonToggle("Draw Enabled Containers", &Settings::containerSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用容器", &Settings::containerSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###ContainerSettingsEnabledAlpha", &Settings::containerSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用容器不透明度", &Settings::containerSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Containers", &Settings::containerSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用容器", &Settings::containerSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###ContainerSettingsDisabledAlpha", &Settings::containerSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用容器不透明度", &Settings::containerSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Containers", &Settings::containerSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称容器", &Settings::containerSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Containers", &Settings::containerSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称容器", &Settings::containerSettings.drawUnnamed);
 
-			ButtonToggle("Show Container Name", &Settings::containerSettings.showName);
+			ButtonToggle((const char*)u8"显示容器名称", &Settings::containerSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Container Distance", &Settings::containerSettings.showDistance);
+			ButtonToggle((const char*)u8"显示容器距离", &Settings::containerSettings.showDistance);
 
-			ButtonToggle("Container Text Shadowed", &Settings::containerSettings.textShadowed);
+			ButtonToggle((const char*)u8"容器信息阴影", &Settings::containerSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Container Text Centered", &Settings::containerSettings.textCentered);
+			ButtonToggle((const char*)u8"容器信息居中", &Settings::containerSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Container Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"容器白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Container Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"容器白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::containerSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ContainerWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###容器白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::containerSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Junk ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"垃圾透视设置"))
 		{
-			ButtonToggle("Junk ESP Enabled", &Settings::junkSettings.enabled);
+			ButtonToggle((const char*)u8"垃圾透视已启用", &Settings::junkSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###JunkSettingsEnabledDistance", &Settings::junkSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###垃圾透视距离", &Settings::junkSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###JunkSettingsColor", Settings::junkSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###垃圾颜色", Settings::junkSettings.color);
 			Utils::ValidateRgb(Settings::junkSettings.color);
 
-			ButtonToggle("Draw Enabled Junk", &Settings::junkSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用垃圾", &Settings::junkSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###JunkSettingsEnabledAlpha", &Settings::junkSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用垃圾不透明度", &Settings::junkSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
 			Utils::ValidateFloat(Settings::junkSettings.enabledAlpha, 0.0f, 1.0f);
 
-			ButtonToggle("Draw Disabled Junk", &Settings::junkSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用垃圾", &Settings::junkSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###JunkSettingsDisabledAlpha", &Settings::junkSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用垃圾不透明度", &Settings::junkSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Junk", &Settings::junkSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称垃圾", &Settings::junkSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Junk", &Settings::junkSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称垃圾", &Settings::junkSettings.drawUnnamed);
 
-			ButtonToggle("Show Junk Name", &Settings::junkSettings.showName);
+			ButtonToggle((const char*)u8"显示垃圾名称", &Settings::junkSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Junk Distance", &Settings::junkSettings.showDistance);
+			ButtonToggle((const char*)u8"显示垃圾距离", &Settings::junkSettings.showDistance);
 
-			ButtonToggle("Junk Text Shadowed", &Settings::junkSettings.textShadowed);
+			ButtonToggle((const char*)u8"垃圾信息阴影", &Settings::junkSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Junk Text Centered", &Settings::junkSettings.textCentered);
+			ButtonToggle((const char*)u8"垃圾信息居中", &Settings::junkSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Junk Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"垃圾白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Junk Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"垃圾白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::junkSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###JunkWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###垃圾白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::junkSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Plan ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"图纸透视设置"))
 		{
-			ButtonToggle("Plan ESP Enabled", &Settings::planSettings.enabled);
+			ButtonToggle((const char*)u8"图纸透视已启用", &Settings::planSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###PlanSettingsEnabledDistance", &Settings::planSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###图纸透视距离", &Settings::planSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###PlanSettingsColor", Settings::planSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###图纸颜色", Settings::planSettings.color);
 			Utils::ValidateRgb(Settings::planSettings.color);
 
-			ButtonToggle("Draw Enabled Plans", &Settings::planSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用图纸", &Settings::planSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###PlanSettingsEnabledAlpha", &Settings::planSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用图纸不透明度", &Settings::planSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Plans", &Settings::planSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用图纸", &Settings::planSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###PlanSettingsDisabledAlpha", &Settings::planSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用图纸不透明度", &Settings::planSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Known Plans", &Settings::recipes.knownRecipesEnabled);
+			ButtonToggle((const char*)u8"绘制已知图纸", &Settings::recipes.knownRecipesEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unknown Plans", &Settings::recipes.unknownRecipesEnabled);
+			ButtonToggle((const char*)u8"绘制未知图纸", &Settings::recipes.unknownRecipesEnabled);
 
-			ButtonToggle("Draw Named Plans", &Settings::planSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称图纸", &Settings::planSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Plans", &Settings::planSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称图纸", &Settings::planSettings.drawUnnamed);
 
-			ButtonToggle("Show Plan Name", &Settings::planSettings.showName);
+			ButtonToggle((const char*)u8"显示图纸名称", &Settings::planSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Plan Distance", &Settings::planSettings.showDistance);
+			ButtonToggle((const char*)u8"显示图纸距离", &Settings::planSettings.showDistance);
 
-			ButtonToggle("Plan Text Shadowed", &Settings::planSettings.textShadowed);
+			ButtonToggle((const char*)u8"图纸信息阴影", &Settings::planSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Plan Text Centered", &Settings::planSettings.textCentered);
+			ButtonToggle((const char*)u8"图纸信息居中", &Settings::planSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Plan Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"图纸白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Plan Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"图纸白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::planSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###PlanWhitelis{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###图纸白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::planSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Magazine ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"杂志透视设置"))
 		{
-			ButtonToggle("Magazine ESP Enabled", &Settings::magazineSettings.enabled);
+			ButtonToggle((const char*)u8"杂志透视已启用", &Settings::magazineSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###MagazineSettingsEnabledDistance", &Settings::magazineSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###杂志透视距离", &Settings::magazineSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###MagazineSettingsColor", Settings::magazineSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###杂志颜色", Settings::magazineSettings.color);
 			Utils::ValidateRgb(Settings::magazineSettings.color);
 
-			ButtonToggle("Draw Enabled Magazines", &Settings::magazineSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用杂志", &Settings::magazineSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###MagazineSettingsEnabledAlpha", &Settings::magazineSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用杂志不透明度", &Settings::magazineSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Magazines", &Settings::magazineSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用杂志", &Settings::magazineSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###MagazineSettingsDisabledAlpha", &Settings::magazineSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用杂志不透明度", &Settings::magazineSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Magazines", &Settings::magazineSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称杂志", &Settings::magazineSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Magazines", &Settings::magazineSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称杂志", &Settings::magazineSettings.drawUnnamed);
 
-			ButtonToggle("Show Magazine Name", &Settings::magazineSettings.showName);
+			ButtonToggle((const char*)u8"显示杂志名称", &Settings::magazineSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Magazine Distance", &Settings::magazineSettings.showDistance);
+			ButtonToggle((const char*)u8"显示杂志距离", &Settings::magazineSettings.showDistance);
 
-			ButtonToggle("Magazine Text Shadowed", &Settings::magazineSettings.textShadowed);
+			ButtonToggle((const char*)u8"杂志信息阴影", &Settings::magazineSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Magazine Text Centered", &Settings::magazineSettings.textCentered);
+			ButtonToggle((const char*)u8"杂志信息居中", &Settings::magazineSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Magazine Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"杂志白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Magazine Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"杂志白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::magazineSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###MagazineWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###杂志白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::magazineSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Bobblehead ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"娃娃透视设置"))
 		{
-			ButtonToggle("Bobblehead ESP Enabled", &Settings::bobbleheadSettings.enabled);
+			ButtonToggle((const char*)u8"娃娃透视已启用", &Settings::bobbleheadSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###BobbleheadSettingsEnabledDistance", &Settings::bobbleheadSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###娃娃透视距离", &Settings::bobbleheadSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###BobbleheadSettingsColor", Settings::bobbleheadSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###娃娃颜色", Settings::bobbleheadSettings.color);
 			Utils::ValidateRgb(Settings::bobbleheadSettings.color);
 
-			ButtonToggle("Draw Enabled Bobbleheads", &Settings::bobbleheadSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用娃娃", &Settings::bobbleheadSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###BobbleheadSettingsEnabledAlpha", &Settings::bobbleheadSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用娃娃不透明度", &Settings::bobbleheadSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Bobbleheads", &Settings::bobbleheadSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用娃娃", &Settings::bobbleheadSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###BobbleheadSettingsDisabledAlpha", &Settings::bobbleheadSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用娃娃不透明度", &Settings::bobbleheadSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Bobbleheads", &Settings::bobbleheadSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称娃娃", &Settings::bobbleheadSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Bobbleheads", &Settings::bobbleheadSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称娃娃", &Settings::bobbleheadSettings.drawUnnamed);
 
-			ButtonToggle("Show Bobblehead Name", &Settings::bobbleheadSettings.showName);
+			ButtonToggle((const char*)u8"显示娃娃名称", &Settings::bobbleheadSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Bobblehead Distance", &Settings::bobbleheadSettings.showDistance);
+			ButtonToggle((const char*)u8"显示娃娃距离", &Settings::bobbleheadSettings.showDistance);
 
-			ButtonToggle("Bobblehead Text Shadowed", &Settings::bobbleheadSettings.textShadowed);
+			ButtonToggle((const char*)u8"娃娃信息阴影", &Settings::bobbleheadSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Bobblehead Text Centered", &Settings::bobbleheadSettings.textCentered);
+			ButtonToggle((const char*)u8"娃娃信息居中", &Settings::bobbleheadSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Bobblehead Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"娃娃白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Bobblehead Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"娃娃白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::bobbleheadSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###BobbleheadWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###娃娃白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::bobbleheadSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Item ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"物品透视设置"))
 		{
-			ButtonToggle("Item ESP Enabled", &Settings::itemSettings.enabled);
+			ButtonToggle((const char*)u8"物品透视已启用", &Settings::itemSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemSettingsEnabledDistance", &Settings::itemSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###物品透视距离", &Settings::itemSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###ItemSettingsColor", Settings::itemSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###物品颜色", Settings::itemSettings.color);
 			Utils::ValidateRgb(Settings::itemSettings.color);
 
-			ButtonToggle("Draw Enabled Items", &Settings::itemSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用物品", &Settings::itemSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###ItemSettingsEnabledAlpha", &Settings::itemSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用物品不透明度", &Settings::itemSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Items", &Settings::itemSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用物品", &Settings::itemSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###ItemSettingsDisabledAlpha", &Settings::itemSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用物品不透明度", &Settings::itemSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Items", &Settings::itemSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称物品", &Settings::itemSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Items", &Settings::itemSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称物品", &Settings::itemSettings.drawUnnamed);
 
-			ButtonToggle("Show Item Name", &Settings::itemSettings.showName);
+			ButtonToggle((const char*)u8"显示物品名称", &Settings::itemSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Item Distance", &Settings::itemSettings.showDistance);
+			ButtonToggle((const char*)u8"显示物品距离", &Settings::itemSettings.showDistance);
 
-			ButtonToggle("Item Text Shadowed", &Settings::itemSettings.textShadowed);
+			ButtonToggle((const char*)u8"物品信息阴影", &Settings::itemSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Item Text Centered", &Settings::itemSettings.textCentered);
+			ButtonToggle((const char*)u8"物品信息居中", &Settings::itemSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Item Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"物品白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Item Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"物品白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::itemSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ItemWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###物品白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::itemSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Flora ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"植物群系透视设置"))
 		{
-			ButtonToggle("Flora ESP Enabled", &Settings::floraSettings.enabled);
+			ButtonToggle((const char*)u8"植物群系透视已启用", &Settings::floraSettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###FloraSettingsEnabledDistance", &Settings::floraSettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###植物群系透视距离", &Settings::floraSettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###FloraSettingsColor", Settings::floraSettings.color);
+			ImGui::ColorEdit3((const char*)u8"###植物群系颜色", Settings::floraSettings.color);
 			Utils::ValidateRgb(Settings::floraSettings.color);
 
-			ButtonToggle("Draw Enabled Flora", &Settings::floraSettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用植物群系", &Settings::floraSettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###FloraSettingsEnabledAlpha", &Settings::floraSettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用植物群系不透明度", &Settings::floraSettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Flora", &Settings::floraSettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用植物群系", &Settings::floraSettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###FloraSettingsDisabledAlpha", &Settings::floraSettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用植物群系不透明度", &Settings::floraSettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Flora", &Settings::floraSettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称植物群系", &Settings::floraSettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Flora", &Settings::floraSettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称植物群系", &Settings::floraSettings.drawUnnamed);
 
-			LargeButtonToggle("Draw Raw Crimson Flux Yielding Flora", &Settings::customFluxSettings.crimsonFluxEnabled);
-			LargeButtonToggle("Draw Raw Cobalt Flux Yielding Flora", &Settings::customFluxSettings.cobaltFluxEnabled);
-			LargeButtonToggle("Draw Raw Yellowcake Flux Yielding Flora", &Settings::customFluxSettings.yellowcakeFluxEnabled);
-			LargeButtonToggle("Draw Raw Fluorescent Flux Yielding Flora", &Settings::customFluxSettings.fluorescentFluxEnabled);
-			LargeButtonToggle("Draw Raw Violet Flux Yielding Flora", &Settings::customFluxSettings.violetFluxEnabled);
+			LargeButtonToggle((const char*)u8"绘制猩红色原料溶剂", &Settings::customFluxSettings.crimsonFluxEnabled);
+			LargeButtonToggle((const char*)u8"绘制钴蓝色原料溶剂", &Settings::customFluxSettings.cobaltFluxEnabled);
+			LargeButtonToggle((const char*)u8"绘制黄饼原料溶剂", &Settings::customFluxSettings.yellowcakeFluxEnabled);
+			LargeButtonToggle((const char*)u8"绘制荧光原料溶剂", &Settings::customFluxSettings.fluorescentFluxEnabled);
+			LargeButtonToggle((const char*)u8"绘制紫色原料溶剂", &Settings::customFluxSettings.violetFluxEnabled);
 
-			ButtonToggle("Show Flora Name", &Settings::floraSettings.showName);
+			ButtonToggle((const char*)u8"显示植物群系名称", &Settings::floraSettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Flora Distance", &Settings::floraSettings.showDistance);
+			ButtonToggle((const char*)u8"显示植物群系距离", &Settings::floraSettings.showDistance);
 
-			ButtonToggle("Flora Text Shadowed", &Settings::floraSettings.textShadowed);
+			ButtonToggle((const char*)u8"植物群系信息阴影", &Settings::floraSettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Flora Text Centered", &Settings::floraSettings.textCentered);
+			ButtonToggle((const char*)u8"植物群系信息居中", &Settings::floraSettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Flora Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"植物群系白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Flora Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"植物群系白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::floraSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###FloraWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###植物群系白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::floraSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Entity ESP Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"实体透视设置"))
 		{
-			ButtonToggle("Entity ESP Enabled", &Settings::entitySettings.enabled);
+			ButtonToggle((const char*)u8"实体透视已启用", &Settings::entitySettings.enabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###EntitySettingsEnabledDistance", &Settings::entitySettings.enabledDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###实体透视距离", &Settings::entitySettings.enabledDistance, 0, 3000, (const char*)u8"距离: %d");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::ColorEdit3("###EntitySettingsColor", Settings::entitySettings.color);
+			ImGui::ColorEdit3((const char*)u8"###实体颜色", Settings::entitySettings.color);
 			Utils::ValidateRgb(Settings::entitySettings.color);
 
-			ButtonToggle("Draw Enabled Entities", &Settings::entitySettings.drawEnabled);
+			ButtonToggle((const char*)u8"绘制已启用实体", &Settings::entitySettings.drawEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###EntitySettingsEnabledAlpha", &Settings::entitySettings.enabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已启用实体不透明度", &Settings::entitySettings.enabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Disabled Entities", &Settings::entitySettings.drawDisabled);
+			ButtonToggle((const char*)u8"绘制已禁用实体", &Settings::entitySettings.drawDisabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###EntitySettingsDisabledAlpha", &Settings::entitySettings.disabledAlpha, 0.0f, 1.0f, "Alpha: %.2f");
+			ImGui::SliderFloat((const char*)u8"###已禁用实体不透明度", &Settings::entitySettings.disabledAlpha, 0.0f, 1.0f, (const char*)u8"不透明度: %.2f");
 
-			ButtonToggle("Draw Named Entities", &Settings::entitySettings.drawNamed);
+			ButtonToggle((const char*)u8"绘制有名称实体", &Settings::entitySettings.drawNamed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Draw Unnamed Entities", &Settings::entitySettings.drawUnnamed);
+			ButtonToggle((const char*)u8"绘制无名称实体", &Settings::entitySettings.drawUnnamed);
 
-			ButtonToggle("Show Entity Name", &Settings::entitySettings.showName);
+			ButtonToggle((const char*)u8"显示实体名称", &Settings::entitySettings.showName);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Show Entity Distance", &Settings::entitySettings.showDistance);
+			ButtonToggle((const char*)u8"现实实体距离", &Settings::entitySettings.showDistance);
 
-			ButtonToggle("Entity Text Shadowed", &Settings::entitySettings.textShadowed);
+			ButtonToggle((const char*)u8"实体信息阴影", &Settings::entitySettings.textShadowed);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Entity Text Centered", &Settings::entitySettings.textCentered);
+			ButtonToggle((const char*)u8"实体信息居中", &Settings::entitySettings.textCentered);
 
-			if (ImGui::CollapsingHeader("Entity Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"实体白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Entity Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"实体白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::floraSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###EntityWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###实体白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::entitySettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
@@ -1285,31 +1282,31 @@ void Gui::OverlayMenuTabEsp()
 
 void Gui::OverlayMenuTabInfoBox()
 {
-	if (ImGui::BeginTabItem("InfoBox###InfoBoxTab"))
+	if (ImGui::BeginTabItem((const char*)u8"信息窗口###信息窗口页面"))
 	{
-		LargeButtonToggle("Draw Automatic Scrap Looter Status", &Settings::infobox.drawScrapLooterStatus);
-		LargeButtonToggle("Draw Automatic Item Looter Status", &Settings::infobox.drawItemLooterStatus);
-		LargeButtonToggle("Draw NPC Looter Status", &Settings::infobox.drawNpcLooterStatus);
-		LargeButtonToggle("Draw Container Looter Status", &Settings::infobox.drawContainerLooterStatus);
-		LargeButtonToggle("Draw Flora Harvester Status", &Settings::infobox.drawHarvesterStatus);
-		LargeButtonToggle("Draw Position Status", &Settings::infobox.drawPositionSpoofingStatus);
-		LargeButtonToggle("Draw Nuke Codes", &Settings::infobox.drawNukeCodes);
+		LargeButtonToggle((const char*)u8"绘制自动材料搜刮状态", &Settings::infobox.drawScrapLooterStatus);
+		LargeButtonToggle((const char*)u8"绘制自动物品搜刮状态", &Settings::infobox.drawItemLooterStatus);
+		LargeButtonToggle((const char*)u8"绘制NPC搜刮状态", &Settings::infobox.drawNpcLooterStatus);
+		LargeButtonToggle((const char*)u8"绘制容器搜刮状态", &Settings::infobox.drawContainerLooterStatus);
+		LargeButtonToggle((const char*)u8"绘制植物群系收获状态", &Settings::infobox.drawHarvesterStatus);
+		LargeButtonToggle((const char*)u8"绘制位置信息", &Settings::infobox.drawPositionSpoofingStatus);
+		LargeButtonToggle((const char*)u8"绘制核弹密码", &Settings::infobox.drawNukeCodes);
 
 		ImGui::EndTabItem();
 	}
 }
 void Gui::OverlayMenuTabLoot()
 {
-	if (ImGui::BeginTabItem("Loot###LootTab"))
+	if (ImGui::BeginTabItem((const char*)u8"搜刮###搜刮页面"))
 	{
-		if (ImGui::CollapsingHeader("Scrap Looter"))
+		if (ImGui::CollapsingHeader((const char*)u8"材料搜刮"))
 		{
 			if (ErectusMemory::CheckScrapList())
 			{
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 0.3f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
-				if (ImGui::Button("Loot Scrap (Keybind: CTRL+E)###LootSelectedScrapEnabled", ImVec2(224.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"材料搜刮 (快捷键: CTRL+E)###搜刮选定材料已启用", ImVec2(224.0f, 0.0f)))
 					ErectusMemory::LootScrap();
 				ImGui::PopStyleColor(3);
 			}
@@ -1319,22 +1316,23 @@ void Gui::OverlayMenuTabLoot()
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 0.3f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
-				ImGui::Button("Loot Scrap (Keybind: CTRL+E)###LootSelectedScrapDisabled", ImVec2(224.0f, 0.0f));
+				ImGui::Button((const char*)u8"材料搜刮 (快捷键: CTRL+E)###搜刮选中材料已禁用", ImVec2(224.0f, 0.0f));
 				ImGui::PopStyleColor(3);
 				ImGui::PopItemFlag();
 			}
 
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Scrap Looter Keybind Enabled", &Settings::scrapLooter.keybindEnabled);
+			ButtonToggle((const char*)u8"材料搜刮快捷键已启用", &Settings::scrapLooter.keybindEnabled);
 
-			LargeButtonToggle("Scrap Looter ESP Override (Uses Junk ESP Settings)", &Settings::scrapLooter.scrapOverrideEnabled);
+			ButtonToggle((const char*)u8"使用垃圾透视设置", &Settings::scrapLooter.scrapOverrideEnabled);
 
-			ButtonToggle("Automatic Looting Enabled###ScrapAutomaticLootingEnabled", &Settings::scrapLooter.autoLootingEnabled);
+			ImGui::SameLine(235.0f);
+			ButtonToggle((const char*)u8"自动搜刮已启用###材料自动搜刮已启用", &Settings::scrapLooter.autoLootingEnabled);
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Speed (Min): {0:d} ({1:d} ms)", Settings::scrapLooter.autoLootingSpeedMin, Settings::scrapLooter.autoLootingSpeedMin * 16);
-				if (ImGui::SliderInt("###ScrapAutomaticSpeedMin", &Settings::scrapLooter.autoLootingSpeedMin, 10, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"速度 (最小): {0:d} ({1:d} 毫秒)", Settings::scrapLooter.autoLootingSpeedMin, Settings::scrapLooter.autoLootingSpeedMin * 16);
+				if (ImGui::SliderInt((const char*)u8"###材料搜刮最小速度", &Settings::scrapLooter.autoLootingSpeedMin, 10, 60, sliderText.c_str()))
 				{
 					if (Settings::scrapLooter.autoLootingSpeedMax < Settings::scrapLooter.autoLootingSpeedMin)
 						Settings::scrapLooter.autoLootingSpeedMax = Settings::scrapLooter.autoLootingSpeedMin;
@@ -1345,8 +1343,8 @@ void Gui::OverlayMenuTabLoot()
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Speed (Max): {0:d} ({1:d} ms)", Settings::scrapLooter.autoLootingSpeedMax, Settings::scrapLooter.autoLootingSpeedMax * 16);
-				if (ImGui::SliderInt("###ScrapAutomaticSpeedMax", &Settings::scrapLooter.autoLootingSpeedMax, 10, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"速度 (最大): {0:d} ({1:d} 毫秒)", Settings::scrapLooter.autoLootingSpeedMax, Settings::scrapLooter.autoLootingSpeedMax * 16);
+				if (ImGui::SliderInt((const char*)u8"###材料搜刮最大速度", &Settings::scrapLooter.autoLootingSpeedMax, 10, 60, sliderText.c_str()))
 				{
 					if (Settings::scrapLooter.autoLootingSpeedMax < Settings::scrapLooter.autoLootingSpeedMin)
 						Settings::scrapLooter.autoLootingSpeedMin = Settings::scrapLooter.autoLootingSpeedMax;
@@ -1354,7 +1352,7 @@ void Gui::OverlayMenuTabLoot()
 			}
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::SliderInt("###ScrapLooterDistance", &Settings::scrapLooter.maxDistance, 1, 3000, "Scrap Looter Distance: %d");
+			ImGui::SliderInt((const char*)u8"###材料搜刮距离", &Settings::scrapLooter.maxDistance, 1, 3000, (const char*)u8"材料搜刮距离: %d");
 
 			for (auto i = 0; i < 40; i++)
 			{
@@ -1363,20 +1361,20 @@ void Gui::OverlayMenuTabLoot()
 				ImGui::SameLine(235.0f);
 				ImGui::SetNextItemWidth(224.0f);
 
-				auto inputLabel = fmt::format("###ScrapReadOnly{:d}", i);
-				auto inputText = fmt::format("{:08X}", Settings::scrapLooter.formIdList[i]);
+				auto inputLabel = fmt::format((const char*)u8"###材料只读{:d}", i);
+				auto inputText = fmt::format((const char*)u8"{:08X}", Settings::scrapLooter.formIdList[i]);
 				ImGui::InputText(inputLabel.c_str(), &inputText, ImGuiInputTextFlags_ReadOnly);
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Item Looter"))
+		if (ImGui::CollapsingHeader((const char*)u8"物品搜刮"))
 		{
 			if (ErectusMemory::CheckItemLooterSettings())
 			{
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 0.3f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
-				if (ImGui::Button("Loot Items (Keybind: CTRL+R)###LootSelectedItemsEnabled", ImVec2(224.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"物品搜刮 (快捷键: CTRL+R)###搜刮选定物品已启用", ImVec2(224.0f, 0.0f)))
 					ErectusMemory::LootItems();
 				ImGui::PopStyleColor(3);
 			}
@@ -1386,19 +1384,19 @@ void Gui::OverlayMenuTabLoot()
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 0.3f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
-				ImGui::Button("Loot Items (Keybind: CTRL+R)###LootSelectedItemsDisabled", ImVec2(224.0f, 0.0f));
+				ImGui::Button((const char*)u8"物品搜刮 (快捷键: CTRL+R)###搜刮选定物品已禁用", ImVec2(224.0f, 0.0f));
 				ImGui::PopStyleColor(3);
 				ImGui::PopItemFlag();
 			}
 
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Item Looter Keybind Enabled", &Settings::itemLooter.keybindEnabled);
+			ButtonToggle((const char*)u8"物品搜刮快捷键已启用", &Settings::itemLooter.keybindEnabled);
 
-			ButtonToggle("Automatic Looting Enabled###ItemAutomaticLootingEnabled", &Settings::itemLooter.autoLootingEnabled);
+			LargeButtonToggle((const char*)u8"自动搜刮已启用###物品自动搜刮已启用", &Settings::itemLooter.autoLootingEnabled);
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Speed (Min): {0:d} ({1:d} ms)", Settings::itemLooter.autoLootingSpeedMin, Settings::itemLooter.autoLootingSpeedMin * 16);
-				if (ImGui::SliderInt("###ItemAutomaticSpeedMin", &Settings::itemLooter.autoLootingSpeedMin, 10, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"速度 (最小): {0:d} ({1:d} 毫秒)", Settings::itemLooter.autoLootingSpeedMin, Settings::itemLooter.autoLootingSpeedMin * 16);
+				if (ImGui::SliderInt((const char*)u8"###物品搜刮最小速度", &Settings::itemLooter.autoLootingSpeedMin, 10, 60, sliderText.c_str()))
 				{
 					if (Settings::itemLooter.autoLootingSpeedMax < Settings::itemLooter.autoLootingSpeedMin)
 						Settings::itemLooter.autoLootingSpeedMax = Settings::itemLooter.autoLootingSpeedMin;
@@ -1409,266 +1407,266 @@ void Gui::OverlayMenuTabLoot()
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Speed (Max): {0:d} ({1:d} ms)", Settings::itemLooter.autoLootingSpeedMax, Settings::itemLooter.autoLootingSpeedMax * 16);
-				if (ImGui::SliderInt("###ItemAutomaticSpeedMax", &Settings::itemLooter.autoLootingSpeedMax, 10, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"速度 (最大): {0:d} ({1:d} 毫秒)", Settings::itemLooter.autoLootingSpeedMax, Settings::itemLooter.autoLootingSpeedMax * 16);
+				if (ImGui::SliderInt((const char*)u8"###物品搜刮最大速度", &Settings::itemLooter.autoLootingSpeedMax, 10, 60, sliderText.c_str()))
 				{
 					if (Settings::itemLooter.autoLootingSpeedMax < Settings::itemLooter.autoLootingSpeedMin)
 						Settings::itemLooter.autoLootingSpeedMin = Settings::itemLooter.autoLootingSpeedMax;
 				}
 			}
 
-			ButtonToggle("Weapons Enabled###ItemLooterWeaponsEnabled", &Settings::itemLooter.lootWeaponsEnabled);
+			ButtonToggle((const char*)u8"武器已启用###武器搜刮已启用", &Settings::itemLooter.lootWeaponsEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterWeaponsDistance", &Settings::itemLooter.lootWeaponsDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###武器搜刮距离", &Settings::itemLooter.lootWeaponsDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Armor Enabled###ItemLooterArmorEnabled", &Settings::itemLooter.lootArmorEnabled);
+			ButtonToggle((const char*)u8"装甲已启用###装甲搜刮已启用", &Settings::itemLooter.lootArmorEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterArmorDistance", &Settings::itemLooter.lootArmorDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###装甲搜刮距离", &Settings::itemLooter.lootArmorDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Ammo Enabled###ItemLooterAmmoEnabled", &Settings::itemLooter.lootAmmoEnabled);
+			ButtonToggle((const char*)u8"弹药已启用###弹药搜刮已启用", &Settings::itemLooter.lootAmmoEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterAmmoDistance", &Settings::itemLooter.lootAmmoDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###弹药搜刮距离", &Settings::itemLooter.lootAmmoDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Mods Enabled###ItemLooterModsEnabled", &Settings::itemLooter.lootModsEnabled);
+			ButtonToggle((const char*)u8"改装件已启用###改装件搜刮已启用", &Settings::itemLooter.lootModsEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterModsDistance", &Settings::itemLooter.lootModsDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###改装件搜刮距离", &Settings::itemLooter.lootModsDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Magazines Enabled###ItemLooterMagazinesEnabled", &Settings::itemLooter.lootMagazinesEnabled);
+			ButtonToggle((const char*)u8"杂志已启用###杂志搜刮已启用", &Settings::itemLooter.lootMagazinesEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterMagazinesDistance", &Settings::itemLooter.lootMagazinesDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###杂志搜刮距离", &Settings::itemLooter.lootMagazinesDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Bobbleheads Enabled###ItemLooterBobbleheadsEnabled", &Settings::itemLooter.lootBobbleheadsEnabled);
+			ButtonToggle((const char*)u8"娃娃已启用###娃娃搜刮已启用", &Settings::itemLooter.lootBobbleheadsEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterBobbleheadsDistance", &Settings::itemLooter.lootBobbleheadsDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###娃娃搜刮距离", &Settings::itemLooter.lootBobbleheadsDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Aid Enabled###ItemLooterAidEnabled", &Settings::itemLooter.lootAidEnabled);
+			ButtonToggle((const char*)u8"辅助品已启用###辅助品搜刮已启用", &Settings::itemLooter.lootAidEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterAidDistance", &Settings::itemLooter.lootAidDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###辅助品搜刮距离", &Settings::itemLooter.lootAidDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Known Plans Enabled###ItemLooterKnownPlansEnabled", &Settings::itemLooter.lootKnownPlansEnabled);
+			ButtonToggle((const char*)u8"已知图纸已启用###已知图纸搜刮已启用", &Settings::itemLooter.lootKnownPlansEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterKnownPlansDistance", &Settings::itemLooter.lootKnownPlansDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###已知图纸搜刮距离", &Settings::itemLooter.lootKnownPlansDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Unknown Plans Enabled###ItemLooterUnknownPlansEnabled", &Settings::itemLooter.lootUnknownPlansEnabled);
+			ButtonToggle((const char*)u8"未知图纸已启用###未知图纸搜刮已启用", &Settings::itemLooter.lootUnknownPlansEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterUnknownPlansDistance", &Settings::itemLooter.lootUnknownPlansDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###未知图纸搜刮距离", &Settings::itemLooter.lootUnknownPlansDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Misc Enabled###ItemLooterMiscEnabled", &Settings::itemLooter.lootMiscEnabled);
+			ButtonToggle((const char*)u8"杂项已启用###杂项搜刮已启用", &Settings::itemLooter.lootMiscEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterMiscDistance", &Settings::itemLooter.lootMiscDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###杂项搜刮距离", &Settings::itemLooter.lootMiscDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Other Enabled###ItemLooterUnlistedEnabled", &Settings::itemLooter.lootUnlistedEnabled);
+			ButtonToggle((const char*)u8"其他已启用###其他搜刮已启用", &Settings::itemLooter.lootUnlistedEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterUnlistedDistance", &Settings::itemLooter.lootUnlistedDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###其他搜刮距离", &Settings::itemLooter.lootUnlistedDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			ButtonToggle("Item FormId List Enabled###ItemLooterListEnabled", &Settings::itemLooter.lootListEnabled);
+			ButtonToggle((const char*)u8"物品FormId列表已启用###物品搜刮列表已启用", &Settings::itemLooter.lootListEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###ItemLooterListDistance", &Settings::itemLooter.lootListDistance, 0, 3000, "Distance: %d");
+			ImGui::SliderInt((const char*)u8"###物品搜刮列表距离", &Settings::itemLooter.lootListDistance, 0, 3000, (const char*)u8"距离: %d");
 
-			LargeButtonToggle("Item Looter Blacklist Enabled###ItemLooterBlacklistToggle", &Settings::itemLooter.blacklistToggle);
+			LargeButtonToggle((const char*)u8"物品搜刮黑名单已启用###启用/禁用物品搜刮黑名单", &Settings::itemLooter.blacklistToggle);
 
-			if (ImGui::CollapsingHeader("Item Looter FormId List"))
+			if (ImGui::CollapsingHeader((const char*)u8"物品搜刮FormId列表"))
 			{
 				for (auto i = 0; i < 100; i++)
 				{
-					auto toggleLabel = fmt::format("Item Looter Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"物品搜刮位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::itemLooter.enabledList[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ItemLooterList{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###物品搜刮列表{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::itemLooter.formIdList[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 
-			if (ImGui::CollapsingHeader("Item Looter Blacklist"))
+			if (ImGui::CollapsingHeader((const char*)u8"物品搜刮黑名单"))
 			{
 				for (auto i = 0; i < 64; i++)
 				{
-					auto toggleLabel = fmt::format("Item Looter Blacklist: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"物品搜刮黑名单: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::itemLooter.blacklistEnabled[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ItemLooterBlacklist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###物品搜刮黑名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::itemLooter.blacklist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("NPC Looter (76m Distance Limit)"))
+		if (ImGui::CollapsingHeader((const char*)u8"NPC搜刮 (76m 距离限制)"))
 		{
-			LargeButtonToggle("Automatic NPC Looting Enabled (Keybind: CTRL+COMMA)###NPCLooterEnabled", &Settings::npcLooter.enabled);
+			LargeButtonToggle((const char*)u8"自动NPC搜刮已启用 (快捷键: CTRL+COMMA)###NPC搜刮已启用", &Settings::npcLooter.enabled);
 
-			ButtonToggle("All Weapons Enabled###NPCLooterAllWeaponsEnabled", &Settings::npcLooter.allWeaponsEnabled);
+			ButtonToggle((const char*)u8"所有武器已启用###NPC搜刮所有武器已启用", &Settings::npcLooter.allWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("All Armor Enabled###NPCLooterAllArmorEnabled", &Settings::npcLooter.allArmorEnabled);
+			ButtonToggle((const char*)u8"所有装甲已启用###NPC搜刮所有装甲已启用", &Settings::npcLooter.allArmorEnabled);
 
-			ButtonToggle("1* Weapons Enabled###NPCLooterOneStarWeaponsEnabled", &Settings::npcLooter.oneStarWeaponsEnabled);
+			ButtonToggle((const char*)u8"一星传奇武器已启用###NPC搜刮一星传奇武器已启用", &Settings::npcLooter.oneStarWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("1* Armor Enabled###NPCLooterOneStarArmorEnabled", &Settings::npcLooter.oneStarArmorEnabled);
+			ButtonToggle((const char*)u8"一星传奇装甲已启用###NPC搜刮一星传奇装甲已启用", &Settings::npcLooter.oneStarArmorEnabled);
 
-			ButtonToggle("2* Weapons Enabled###NPCLooterTwoStarWeaponsEnabled", &Settings::npcLooter.twoStarWeaponsEnabled);
+			ButtonToggle((const char*)u8"二星传奇武器已启用###NPC搜刮二星传奇武器已启用", &Settings::npcLooter.twoStarWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("2* Armor Enabled###NPCLooterTwoStarArmorEnabled", &Settings::npcLooter.twoStarArmorEnabled);
+			ButtonToggle((const char*)u8"二星传奇装甲已启用###NPC搜刮二星传奇装甲已启用", &Settings::npcLooter.twoStarArmorEnabled);
 
-			ButtonToggle("3* Weapons Enabled###NPCLooterThreeStarWeaponsEnabled", &Settings::npcLooter.threeStarWeaponsEnabled);
+			ButtonToggle((const char*)u8"三星传奇武器已启用###NPC搜刮三星传奇武器已启用", &Settings::npcLooter.threeStarWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("3* Armor Enabled###NPCLooterThreeStarArmorEnabled", &Settings::npcLooter.threeStarArmorEnabled);
+			ButtonToggle((const char*)u8"三星传奇装甲已启用###NPC搜刮三星传奇装甲已启用", &Settings::npcLooter.threeStarArmorEnabled);
 
-			ButtonToggle("Ammo Enabled###NPCLooterAmmoEnabled", &Settings::npcLooter.ammoEnabled);
+			ButtonToggle((const char*)u8"弹药已启用###NPC搜刮弹药已启用", &Settings::npcLooter.ammoEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Mods Enabled###NPCLooterModsEnabled", &Settings::npcLooter.modsEnabled);
+			ButtonToggle((const char*)u8"改装件已启用###NPC搜刮改装件已启用", &Settings::npcLooter.modsEnabled);
 
-			ButtonToggle("Caps Enabled###NPCLooterCapsEnabled", &Settings::npcLooter.capsEnabled);
+			ButtonToggle((const char*)u8"瓶盖已启用###NPC搜刮瓶盖已启用", &Settings::npcLooter.capsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Junk Enabled###NPCLooterJunkEnabled", &Settings::npcLooter.junkEnabled);
+			ButtonToggle((const char*)u8"垃圾已启用###NPC搜刮垃圾已启用", &Settings::npcLooter.junkEnabled);
 
-			ButtonToggle("Aid Enabled###NPCLooterAidEnabled", &Settings::npcLooter.aidEnabled);
+			ButtonToggle((const char*)u8"辅助品已启用###NPC搜刮辅助品已启用", &Settings::npcLooter.aidEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Treasure Maps Enabled###NPCLooterTreasureMapsEnabled", &Settings::npcLooter.treasureMapsEnabled);
+			ButtonToggle((const char*)u8"藏宝图已启用###NPC搜刮藏宝图已启用", &Settings::npcLooter.treasureMapsEnabled);
 
-			ButtonToggle("Known Plans Enabled###NPCLooterKnownPlansEnabled", &Settings::npcLooter.knownPlansEnabled);
+			ButtonToggle((const char*)u8"已知图纸已启用###NPC已知图纸搜刮已启用", &Settings::npcLooter.knownPlansEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Unknown Plans Enabled###NPCLooterUnknownPlansEnabled", &Settings::npcLooter.unknownPlansEnabled);
+			ButtonToggle((const char*)u8"未知图纸已启用###NPC未知图纸搜刮已启用", &Settings::npcLooter.unknownPlansEnabled);
 
-			ButtonToggle("Misc Enabled###NPCLooterMiscEnabled", &Settings::npcLooter.miscEnabled);
+			ButtonToggle((const char*)u8"杂项已启用###NPC杂项搜刮已启用", &Settings::npcLooter.miscEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Other Enabled###NPCLooterUnlistedEnabled", &Settings::npcLooter.unlistedEnabled);
+			ButtonToggle((const char*)u8"其他已启用###NPC其他搜刮已启用", &Settings::npcLooter.unlistedEnabled);
 
-			LargeButtonToggle("NPC Looter FormId List Enabled###NPCLooterListEnabled", &Settings::npcLooter.listEnabled);
-			LargeButtonToggle("NPC Looter Blacklist Enabled###NPCLooterBlacklistToggle", &Settings::npcLooter.blacklistToggle);
+			LargeButtonToggle((const char*)u8"NPC搜刮FormId列表已启用###NPC搜刮列表已启用", &Settings::npcLooter.listEnabled);
+			LargeButtonToggle((const char*)u8"NPC搜刮黑名单已启用###启用/禁用NPC搜刮黑名单", &Settings::npcLooter.blacklistToggle);
 
-			if (ImGui::CollapsingHeader("NPC Looter FormId List"))
+			if (ImGui::CollapsingHeader((const char*)u8"NPC搜刮FormId列表"))
 			{
 				for (auto i = 0; i < 100; i++)
 				{
-					auto toggleLabel = fmt::format("NPC Looter Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"NPC搜刮位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::npcLooter.enabledList[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###NPCLooterList{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###NPC搜刮列表{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::npcLooter.formIdList[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 
-			if (ImGui::CollapsingHeader("NPC Looter Blacklist"))
+			if (ImGui::CollapsingHeader((const char*)u8"NPC搜刮黑名单"))
 			{
 				for (auto i = 0; i < 64; i++)
 				{
-					auto toggleLabel = fmt::format("NPC Looter Blacklist: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"NPC搜刮黑名单: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::npcLooter.blacklistEnabled[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###NPCLooterBlacklist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###NPC搜刮黑名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::npcLooter.blacklist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Container Looter (6m Distance Limit)"))
+		if (ImGui::CollapsingHeader((const char*)u8"容器搜刮 (6m 距离限制)"))
 		{
-			LargeButtonToggle("Automatic Container Looting Enabled (Keybind: CTRL+PERIOD)###ContainerLooterEnabled", &Settings::containerLooter.enabled);
+			LargeButtonToggle((const char*)u8"自动容器搜刮已启用 (快捷键: CTRL+PERIOD)###容器搜刮已启用", &Settings::containerLooter.enabled);
 
-			ButtonToggle("All Weapons Enabled###ContainerLooterAllWeaponsEnabled", &Settings::containerLooter.allWeaponsEnabled);
+			ButtonToggle((const char*)u8"所有武器已启用###容器搜刮所有武器已启用", &Settings::containerLooter.allWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("All Armor Enabled###ContainerLooterAllArmorEnabled", &Settings::containerLooter.allArmorEnabled);
+			ButtonToggle((const char*)u8"所有装甲已启用###容器搜刮所有装甲已启用", &Settings::containerLooter.allArmorEnabled);
 
-			ButtonToggle("1* Weapons Enabled###ContainerLooterOneStarWeaponsEnabled", &Settings::containerLooter.oneStarWeaponsEnabled);
+			ButtonToggle((const char*)u8"一星传奇武器已启用###容器搜刮一星传奇武器已启用", &Settings::containerLooter.oneStarWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("1* Armor Enabled###ContainerLooterOneStarArmorEnabled", &Settings::containerLooter.oneStarArmorEnabled);
+			ButtonToggle((const char*)u8"一星传奇护甲已启用###容器搜刮一星传奇护甲已启用", &Settings::containerLooter.oneStarArmorEnabled);
 
-			ButtonToggle("2* Weapons Enabled###ContainerLooterTwoStarWeaponsEnabled", &Settings::containerLooter.twoStarWeaponsEnabled);
+			ButtonToggle((const char*)u8"二星传奇武器已启用###容器搜刮二星传奇武器已启用", &Settings::containerLooter.twoStarWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("2* Armor Enabled###ContainerLooterTwoStarArmorEnabled", &Settings::containerLooter.twoStarArmorEnabled);
+			ButtonToggle((const char*)u8"二星传奇护甲已启用###容器搜刮二星传奇护甲已启用", &Settings::containerLooter.twoStarArmorEnabled);
 
-			ButtonToggle("3* Weapons Enabled###ContainerLooterThreeStarWeaponsEnabled", &Settings::containerLooter.threeStarWeaponsEnabled);
+			ButtonToggle((const char*)u8"三星传奇武器已启用###容器搜刮三星传奇武器已启用", &Settings::containerLooter.threeStarWeaponsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("3* Armor Enabled###ContainerLooterThreeStarArmorEnabled", &Settings::containerLooter.threeStarArmorEnabled);
+			ButtonToggle((const char*)u8"三星传奇护甲已启用###容器搜刮三星传奇护甲已启用", &Settings::containerLooter.threeStarArmorEnabled);
 
-			ButtonToggle("Ammo Enabled###ContainerLooterAmmoEnabled", &Settings::containerLooter.ammoEnabled);
+			ButtonToggle((const char*)u8"弹药已启用###容器搜刮弹药已启用", &Settings::containerLooter.ammoEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Mods Enabled###ContainerLooterModsEnabled", &Settings::containerLooter.modsEnabled);
+			ButtonToggle((const char*)u8"改装件已启用###容器搜刮改装件已启用", &Settings::containerLooter.modsEnabled);
 
-			ButtonToggle("Caps Enabled###ContainerLooterCapsEnabled", &Settings::containerLooter.capsEnabled);
+			ButtonToggle((const char*)u8"瓶盖已启用###容器搜刮瓶盖已启用", &Settings::containerLooter.capsEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Junk Enabled###ContainerLooterJunkEnabled", &Settings::containerLooter.junkEnabled);
+			ButtonToggle((const char*)u8"垃圾已启用###容器搜刮垃圾已启用", &Settings::containerLooter.junkEnabled);
 
-			ButtonToggle("Aid Enabled###ContainerLooterAidEnabled", &Settings::containerLooter.aidEnabled);
+			ButtonToggle((const char*)u8"辅助品已启用###容器搜刮辅助品已启用", &Settings::containerLooter.aidEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Treasure Maps Enabled###ContainerLooterTreasureMapsEnabled", &Settings::containerLooter.treasureMapsEnabled);
+			ButtonToggle((const char*)u8"藏宝图已启用###容器搜刮藏宝图已启用", &Settings::containerLooter.treasureMapsEnabled);
 
-			ButtonToggle("Known Plans Enabled###ContainerLooterKnownPlansEnabled", &Settings::containerLooter.knownPlansEnabled);
+			ButtonToggle((const char*)u8"已知图纸已启用###容器搜刮已知图纸已启用", &Settings::containerLooter.knownPlansEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Unknown Plans Enabled###ContainerLooterUnknownPlansEnabled", &Settings::containerLooter.unknownPlansEnabled);
+			ButtonToggle((const char*)u8"未知图纸已启用###容器搜刮未知图纸已启用", &Settings::containerLooter.unknownPlansEnabled);
 
-			ButtonToggle("Misc Enabled###ContainerLooterMiscEnabled", &Settings::containerLooter.miscEnabled);
+			ButtonToggle((const char*)u8"杂项已启用###容器搜刮杂项已启用", &Settings::containerLooter.miscEnabled);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Other Enabled###ContainerLooterUnlistedEnabled", &Settings::containerLooter.unlistedEnabled);
+			ButtonToggle((const char*)u8"其他已启用###容器搜刮其他已启用", &Settings::containerLooter.unlistedEnabled);
 
-			LargeButtonToggle("Container Looter FormId List Enabled###ContainerLooterListEnabled", &Settings::containerLooter.listEnabled);
+			LargeButtonToggle((const char*)u8"容器搜刮FormId列表已启用###容器搜刮列表已启用", &Settings::containerLooter.listEnabled);
 
-			LargeButtonToggle("Container Looter Blacklist Enabled###ContainerLooterBlacklistToggle", &Settings::containerLooter.blacklistToggle);
+			LargeButtonToggle((const char*)u8"容器搜刮黑名单已启用###启用/禁用容器搜刮黑名单", &Settings::containerLooter.blacklistToggle);
 
-			if (ImGui::CollapsingHeader("Container Looter FormId List"))
+			if (ImGui::CollapsingHeader((const char*)u8"容器搜刮FormId列表"))
 			{
 				for (auto i = 0; i < 100; i++)
 				{
-					auto toggleLabel = fmt::format("Container Looter Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"容器搜刮位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::containerLooter.enabledList[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ContainerLooterList{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###容器搜刮列表{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::containerLooter.formIdList[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 
-			if (ImGui::CollapsingHeader("Container Looter Blacklist"))
+			if (ImGui::CollapsingHeader((const char*)u8"容器搜刮黑名单"))
 			{
 				for (auto i = 0; i < 64; i++)
 				{
-					auto toggleLabel = fmt::format("Container Looter Blacklist: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"容器搜刮黑名单: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::containerLooter.blacklistEnabled[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ContainerLooterBlacklist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###容器搜刮黑名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::containerLooter.blacklist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Flora Harvester (6m Distance Limit)"))
+		if (ImGui::CollapsingHeader((const char*)u8"植物群系收获 (6m 距离限制)"))
 		{
-			LargeButtonToggle("Automatic Flora Harvesting Enabled (Keybind: CTRL+P])###HarvesterEnabled", &Settings::harvester.enabled);
-			LargeButtonToggle("Flora Harvester ESP Override (Uses Flora ESP Settings)", &Settings::harvester.overrideEnabled);
+			LargeButtonToggle((const char*)u8"自动植物群系收获已启用 (快捷键: CTRL+P])###植物群系收获已启用", &Settings::harvester.enabled);
+			LargeButtonToggle((const char*)u8"植物群系收获越过设置 (使用植物群系透视设置)", &Settings::harvester.overrideEnabled);
 
 			for (auto i = 0; i < 69; i++)
 			{
@@ -1677,8 +1675,8 @@ void Gui::OverlayMenuTabLoot()
 				ImGui::SameLine(235.0f);
 				ImGui::SetNextItemWidth(224.0f);
 
-				auto inputLabel = fmt::format("###HarvesterReadOnly{:d}", i);
-				auto inputText = fmt::format("{:08X}", Settings::harvester.formIdList[i]);
+				auto inputLabel = fmt::format((const char*)u8"###植物群系只读{:d}", i);
+				auto inputText = fmt::format((const char*)u8"{:08X}", Settings::harvester.formIdList[i]);
 				ImGui::InputText(inputLabel.c_str(), &inputText, ImGuiInputTextFlags_ReadOnly);
 			}
 		}
@@ -1689,85 +1687,85 @@ void Gui::OverlayMenuTabLoot()
 
 void Gui::OverlayMenuTabCombat()
 {
-	if (ImGui::BeginTabItem("Combat###CombatTab"))
+	if (ImGui::BeginTabItem((const char*)u8"战斗###战斗页面"))
 	{
-		if (ImGui::CollapsingHeader("Weapon Editor"))
+		if (ImGui::CollapsingHeader((const char*)u8"武器编辑器"))
 		{
-			ButtonToggle("No Recoil", &Settings::weapons.noRecoil);
+			ButtonToggle((const char*)u8"无后坐力", &Settings::weapons.noRecoil);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Infinite Ammo", &Settings::weapons.infiniteAmmo);
+			ButtonToggle((const char*)u8"无限子弹", &Settings::weapons.infiniteAmmo);
 
-			ButtonToggle("No Spread", &Settings::weapons.noSpread);
+			ButtonToggle((const char*)u8"无扩散", &Settings::weapons.noSpread);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Instant Reload", &Settings::weapons.instantReload);
+			ButtonToggle((const char*)u8"瞬间换弹", &Settings::weapons.instantReload);
 
-			ButtonToggle("No Sway", &Settings::weapons.noSway);
+			ButtonToggle((const char*)u8"无晃动", &Settings::weapons.noSway);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Automatic Flag###WeaponAutomatic", &Settings::weapons.automaticflag);
+			ButtonToggle((const char*)u8"全自动标识###武器全自动", &Settings::weapons.automaticflag);
 
-			ButtonToggle("Capacity###WeaponCapacityEnabled", &Settings::weapons.capacityEnabled);
+			ButtonToggle((const char*)u8"弹匣容量###武器弹匣容量已启用", &Settings::weapons.capacityEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###WeaponCapacity", &Settings::weapons.capacity, 0, 999, "Capacity: %d");
+			ImGui::SliderInt((const char*)u8"###武器弹匣容量", &Settings::weapons.capacity, 0, 999, (const char*)u8"弹匣容量: %d");
 
-			ButtonToggle("Speed###WeaponSpeedEnabled", &Settings::weapons.speedEnabled);
+			ButtonToggle((const char*)u8"射速###武器射速已启用", &Settings::weapons.speedEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###WeaponSpeed", &Settings::weapons.speed, 0.0f, 100.0f, "Speed: %.2f");
+			ImGui::SliderFloat((const char*)u8"###武器射速", &Settings::weapons.speed, 0.0f, 100.0f, (const char*)u8"射速: %.2f");
 
-			ButtonToggle("Reach###WeaponReachEnabled", &Settings::weapons.reachEnabled);
+			ButtonToggle((const char*)u8"射程###武器射程已启用", &Settings::weapons.reachEnabled);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###WeaponReach", &Settings::weapons.reach, 0.0f, 999.0f, "Reach: %.2f");
+			ImGui::SliderFloat((const char*)u8"###武器射程", &Settings::weapons.reach, 0.0f, 999.0f, (const char*)u8"射程: %.2f");
 		}
 
-		if (ImGui::CollapsingHeader("Targeting Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"目标设置"))
 		{
-			ButtonToggle("Player Targeting (Keybind: T)", &Settings::targetting.lockPlayers);
+			ButtonToggle((const char*)u8"锁定玩家 (快捷键: T)", &Settings::targetting.lockPlayers);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("NPC Targeting (Keybind: T)", &Settings::targetting.lockNpCs);
+			ButtonToggle((const char*)u8"锁定NPC (快捷键: T)", &Settings::targetting.lockNpCs);
 
-			ButtonToggle("Damage Redirection (Players)", &Settings::targetting.indirectPlayers);
+			ButtonToggle((const char*)u8"伤害重定向 (玩家)", &Settings::targetting.indirectPlayers);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Damage Redirection (NPCs)", &Settings::targetting.indirectNpCs);
+			ButtonToggle((const char*)u8"伤害重定向 (NPC)", &Settings::targetting.indirectNpCs);
 
-			ButtonToggle("Send Damage (Players)", &Settings::targetting.directPlayers);
+			ButtonToggle((const char*)u8"发送伤害 (玩家)", &Settings::targetting.directPlayers);
 			ImGui::SameLine(235.0f);
-			ButtonToggle("Send Damage (NPCs)", &Settings::targetting.directNpCs);
+			ButtonToggle((const char*)u8"发送伤害 (NPC)", &Settings::targetting.directNpCs);
 
-			SmallButtonToggle("Living###TargetLiving", &Settings::targetting.targetLiving);
+			SmallButtonToggle((const char*)u8"存活###锁定存活", &Settings::targetting.targetLiving);
 			ImGui::SameLine(122.0f);
-			SmallButtonToggle("Downed###TargetDowned", &Settings::targetting.targetDowned);
+			SmallButtonToggle((const char*)u8"倒地###锁定倒地", &Settings::targetting.targetDowned);
 			ImGui::SameLine(235.0f);
-			SmallButtonToggle("Dead###TargetDead", &Settings::targetting.targetDead);
+			SmallButtonToggle((const char*)u8"死亡###锁定死亡", &Settings::targetting.targetDead);
 			ImGui::SameLine(349.0f);
-			SmallButtonToggle("Unknown###TargetUnknown", &Settings::targetting.targetUnknown);
+			SmallButtonToggle((const char*)u8"未知###锁定未知", &Settings::targetting.targetUnknown);
 
-			ButtonToggle("Ignore Render Distance###IgnoreRenderDistance", &Settings::targetting.ignoreRenderDistance);
+			ButtonToggle((const char*)u8"忽略超远距离###忽略超远距离", &Settings::targetting.ignoreRenderDistance);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderFloat("###TargetLockingFOV", &Settings::targetting.lockingFov, 5.0f, 40.0f, "Targeting FOV: %.2f");
+			ImGui::SliderFloat((const char*)u8"###目标锁定角度", &Settings::targetting.lockingFov, 5.0f, 40.0f, (const char*)u8"锁定角度: %.2f");
 
-			ButtonToggle("Ignore Essential NPCs###IgnoreEssentialNPCs", &Settings::targetting.ignoreEssentialNpCs);
+			ButtonToggle((const char*)u8"忽略基本NPC###忽略基本NPC", &Settings::targetting.ignoreEssentialNpCs);
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::ColorEdit3("###TargetLockingColor", Settings::targetting.lockingColor);
+			ImGui::ColorEdit3((const char*)u8"###目标锁定颜色", Settings::targetting.lockingColor);
 			Utils::ValidateRgb(Settings::playerSettings.unknownColor);
 
-			ButtonToggle("Automatic Retargeting###TargetLockingRetargeting", &Settings::targetting.retargeting);
+			ButtonToggle((const char*)u8"自动切换目标###目标锁定切换", &Settings::targetting.retargeting);
 
 			ImGui::SameLine(235.0f);
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Cooldown: {0:d} ({1:d} ms)", Settings::targetting.cooldown, Settings::targetting.cooldown * 16);
-				ImGui::SliderInt("###TargetLockingCooldown", &Settings::targetting.cooldown, 0, 120, sliderText.c_str());
+				auto sliderText = fmt::format((const char*)u8"冷却: {0:d} ({1:d} 毫秒)", Settings::targetting.cooldown, Settings::targetting.cooldown * 16);
+				ImGui::SliderInt((const char*)u8"###目标锁定冷却", &Settings::targetting.cooldown, 0, 120, sliderText.c_str());
 			}
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Send Damage (Min): {0:d} ({1:d} ms)", Settings::targetting.sendDamageMin, Settings::targetting.sendDamageMin * 16);
-				if (ImGui::SliderInt("###SendDamageMin", &Settings::targetting.sendDamageMin, 1, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"发送伤害 (最小): {0:d} ({1:d} 毫秒)", Settings::targetting.sendDamageMin, Settings::targetting.sendDamageMin * 16);
+				if (ImGui::SliderInt((const char*)u8"###最小发送伤害", &Settings::targetting.sendDamageMin, 1, 60, sliderText.c_str()))
 				{
 					if (Settings::targetting.sendDamageMax < Settings::targetting.sendDamageMin)
 						Settings::targetting.sendDamageMax = Settings::targetting.sendDamageMin;
@@ -1778,8 +1776,8 @@ void Gui::OverlayMenuTabCombat()
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Send Damage (Max): {0:d} ({1:d} ms)", Settings::targetting.sendDamageMax, Settings::targetting.sendDamageMax * 16);
-				if (ImGui::SliderInt("###SendDamageMax", &Settings::targetting.sendDamageMax, 1, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"发送伤害 (最大): {0:d} ({1:d} 毫秒)", Settings::targetting.sendDamageMax, Settings::targetting.sendDamageMax * 16);
+				if (ImGui::SliderInt((const char*)u8"###最大发送伤害", &Settings::targetting.sendDamageMax, 1, 60, sliderText.c_str()))
 				{
 					if (Settings::targetting.sendDamageMax < Settings::targetting.sendDamageMin)
 						Settings::targetting.sendDamageMin = Settings::targetting.sendDamageMax;
@@ -1787,18 +1785,18 @@ void Gui::OverlayMenuTabCombat()
 			}
 
 			{
-				std::string favoritedWeaponsPreview = "[?] No Weapon Selected";
+				std::string favoritedWeaponsPreview = (const char*)u8"[?] 未选定武器";
 				if (Settings::targetting.favoriteIndex < 12)
 				{
 					favoritedWeaponsPreview = ErectusMemory::GetFavoritedWeaponText(BYTE(Settings::targetting.favoriteIndex));
 					if (favoritedWeaponsPreview.empty())
 					{
-						favoritedWeaponsPreview = fmt::format("[{}] Favorited Item Invalid", ErectusMemory::FavoriteIndex2Slot(BYTE(Settings::targetting.favoriteIndex)));
+						favoritedWeaponsPreview = fmt::format((const char*)u8"[{}] 无效的最爱武器", ErectusMemory::FavoriteIndex2Slot(BYTE(Settings::targetting.favoriteIndex)));
 					}
 				}
 
 				ImGui::SetNextItemWidth(451.0f);
-				if (ImGui::BeginCombo("###BeginTempCombo", favoritedWeaponsPreview.c_str()))
+				if (ImGui::BeginCombo((const char*)u8"###启动连续攻击", favoritedWeaponsPreview.c_str()))
 				{
 					for (const auto& item : ErectusMemory::GetFavoritedWeapons())
 					{
@@ -1817,14 +1815,14 @@ void Gui::OverlayMenuTabCombat()
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Melee Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"近战设置"))
 		{
-			LargeButtonToggle("Melee Enabled (Keybind: U)", &Settings::melee.enabled);
+			LargeButtonToggle((const char*)u8"近战已启用 (快捷键: U)", &Settings::melee.enabled);
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Melee Speed (Min): {0:d} ({1:d} ms)", Settings::melee.speedMin, Settings::melee.speedMin * 16);
-				if (ImGui::SliderInt("###MeleeSpeedMin", &Settings::melee.speedMin, 1, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"近战速度 (最小): {0:d} ({1:d} 毫秒)", Settings::melee.speedMin, Settings::melee.speedMin * 16);
+				if (ImGui::SliderInt((const char*)u8"###最小近战速度", &Settings::melee.speedMin, 1, 60, sliderText.c_str()))
 				{
 					if (Settings::melee.speedMax < Settings::melee.speedMin)
 						Settings::melee.speedMax = Settings::melee.speedMin;
@@ -1835,8 +1833,8 @@ void Gui::OverlayMenuTabCombat()
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				auto sliderText = fmt::format("Melee Speed (Max): {0:d} ({1:d} ms)", Settings::melee.speedMax, Settings::melee.speedMax * 16);
-				if (ImGui::SliderInt("###MeleeSpeedMax", &Settings::melee.speedMax, 1, 60, sliderText.c_str()))
+				auto sliderText = fmt::format((const char*)u8"近战速度 (最大): {0:d} ({1:d} 毫秒)", Settings::melee.speedMax, Settings::melee.speedMax * 16);
+				if (ImGui::SliderInt((const char*)u8"###最大近战速度", &Settings::melee.speedMax, 1, 60, sliderText.c_str()))
 				{
 					if (Settings::melee.speedMax < Settings::melee.speedMin)
 						Settings::melee.speedMin = Settings::melee.speedMax;
@@ -1844,10 +1842,10 @@ void Gui::OverlayMenuTabCombat()
 			}
 		}
 
-		if (ImGui::CollapsingHeader("One Position Kill"))
+		if (ImGui::CollapsingHeader((const char*)u8"一击必杀"))
 		{
-			LargeButtonToggle("OPK Players (Keybind: CTRL+B)", &Settings::opk.playersEnabled);
-			LargeButtonToggle("OPK NPCs (Keybind: CTRL+N)", &Settings::opk.npcsEnabled);
+			LargeButtonToggle((const char*)u8"一击必杀玩家 (快捷键: CTRL+B)", &Settings::opk.playersEnabled);
+			LargeButtonToggle((const char*)u8"一击必杀NPC (快捷键: CTRL+N)", &Settings::opk.npcsEnabled);
 		}
 
 		ImGui::EndTabItem();
@@ -1856,93 +1854,93 @@ void Gui::OverlayMenuTabCombat()
 
 void Gui::OverlayMenuTabPlayer()
 {
-	if (ImGui::BeginTabItem("Player###PlayerTab"))
+	if (ImGui::BeginTabItem((const char*)u8"玩家###玩家页面"))
 	{
-		if (ImGui::CollapsingHeader("Local Player Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"本地玩家设置"))
 		{
-			LargeButtonToggle("Position Spoofing (Keybind CTRL+L)##LocalPlayerPositionSpoofingEnabled", &Settings::customLocalPlayerSettings.positionSpoofingEnabled);
+			ButtonToggle((const char*)u8"位置伪造 (快捷键 CTRL+L)##本地玩家位置伪造已启用", &Settings::customLocalPlayerSettings.positionSpoofingEnabled);
 
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
 
-			ImGui::SliderInt("###LocalPlayerPositionSpoofingHeight", &Settings::customLocalPlayerSettings.positionSpoofingHeight, -524287, 524287, "Spoofed Height: %d");
+			ImGui::SliderInt((const char*)u8"###本地玩家位置伪造高度", &Settings::customLocalPlayerSettings.positionSpoofingHeight, -524287, 524287, (const char*)u8"伪造高度: %d");
 
-			ButtonToggle("Noclip (Keybind CTRL+Y)###NoclipEnabled", &Settings::customLocalPlayerSettings.noclipEnabled);
-
-			ImGui::SameLine(235.0f);
-			ImGui::SetNextItemWidth(224.0f);
-
-			ImGui::SliderFloat("###NoclipSpeed", &Settings::customLocalPlayerSettings.noclipSpeed, 0.0f, 2.0f, "Speed: %.5f");
-
-			ButtonToggle("Client State", &Settings::customLocalPlayerSettings.clientState);
-			ImGui::SameLine(235.0f);
-			ButtonToggle("Automatic Client State", &Settings::customLocalPlayerSettings.automaticClientState);
-
-			LargeButtonToggle("Freeze Action Points###LocalPlayerFreezeApEnabled", &Settings::customLocalPlayerSettings.freezeApEnabled);
-
-			ButtonToggle("Action Points###LocalPlayerAPEnabled", &Settings::customLocalPlayerSettings.actionPointsEnabled);
+			ButtonToggle((const char*)u8"穿墙 (快捷键 CTRL+Y)###穿墙已启动", &Settings::customLocalPlayerSettings.noclipEnabled);
 
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
 
-			ImGui::SliderInt("###LocalPlayerAP", &Settings::customLocalPlayerSettings.actionPoints, 0, 99999, "Action Points: %d");
+			ImGui::SliderFloat((const char*)u8"###穿墙速度", &Settings::customLocalPlayerSettings.noclipSpeed, 0.0f, 2.0f, (const char*)u8"速度: %.5f");
 
-			ButtonToggle("Strength###LocalPlayerStrengthEnabled", &Settings::customLocalPlayerSettings.strengthEnabled);
+			ButtonToggle((const char*)u8"客户端声明", &Settings::customLocalPlayerSettings.clientState);
+			ImGui::SameLine(235.0f);
+			ButtonToggle((const char*)u8"自动客户端声明", &Settings::customLocalPlayerSettings.automaticClientState);
+
+			LargeButtonToggle((const char*)u8"锁定行动点数###本地玩家锁定AP点数已启用", &Settings::customLocalPlayerSettings.freezeApEnabled);
+
+			ButtonToggle((const char*)u8"行动点数###本地玩家行动点数已启用", &Settings::customLocalPlayerSettings.actionPointsEnabled);
 
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
 
-			ImGui::SliderInt("###LocalPlayerStrength", &Settings::customLocalPlayerSettings.strength, 0, 99999, "Strength: %d");
+			ImGui::SliderInt((const char*)u8"###本地玩家行动点数", &Settings::customLocalPlayerSettings.actionPoints, 0, 99999, (const char*)u8"行动点数: %d");
 
-			ButtonToggle("Perception###LocalPlayerPerceptionEnabled", &Settings::customLocalPlayerSettings.perceptionEnabled);
-			ImGui::SameLine(235.0f);
-			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###LocalPlayerPerception", &Settings::customLocalPlayerSettings.perception, 0, 99999, "Perception: %d");
-
-			ButtonToggle("Endurance###LocalPlayerEnduranceEnabled", &Settings::customLocalPlayerSettings.enduranceEnabled);
+			ButtonToggle((const char*)u8"力量###本地玩家力量已启用", &Settings::customLocalPlayerSettings.strengthEnabled);
 
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
 
-			ImGui::SliderInt("###LocalPlayerEndurance", &Settings::customLocalPlayerSettings.endurance, 0, 99999, "Endurance: %d");
+			ImGui::SliderInt((const char*)u8"###本地玩家力量", &Settings::customLocalPlayerSettings.strength, 0, 99999, (const char*)u8"力量: %d");
 
-			ButtonToggle("Charisma###LocalPlayerCharismaEnabled", &Settings::customLocalPlayerSettings.charismaEnabled);
+			ButtonToggle((const char*)u8"感知###本地玩家感知已启用", &Settings::customLocalPlayerSettings.perceptionEnabled);
+			ImGui::SameLine(235.0f);
+			ImGui::SetNextItemWidth(224.0f);
+			ImGui::SliderInt((const char*)u8"###本地玩家感知", &Settings::customLocalPlayerSettings.perception, 0, 99999, (const char*)u8"感知: %d");
+
+			ButtonToggle((const char*)u8"耐力###本地玩家耐力已启用", &Settings::customLocalPlayerSettings.enduranceEnabled);
 
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
 
-			ImGui::SliderInt("###LocalPlayerCharisma", &Settings::customLocalPlayerSettings.charisma, 0, 99999, "Charisma: %d");
+			ImGui::SliderInt((const char*)u8"###本地玩家耐力", &Settings::customLocalPlayerSettings.endurance, 0, 99999, (const char*)u8"耐力: %d");
 
-			ButtonToggle("Intelligence###LocalPlayerIntelligenceEnabled", &Settings::customLocalPlayerSettings.intelligenceEnabled);
-
-			ImGui::SameLine(235.0f);
-			ImGui::SetNextItemWidth(224.0f);
-
-			ImGui::SliderInt("###LocalPlayerIntelligence", &Settings::customLocalPlayerSettings.intelligence, 0, 99999, "Intelligence: %d");
-
-			ButtonToggle("Agility###LocalPlayerAgilityEnabled", &Settings::customLocalPlayerSettings.agilityEnabled);
+			ButtonToggle((const char*)u8"魅力###本地玩家魅力已启用", &Settings::customLocalPlayerSettings.charismaEnabled);
 
 			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
 
-			ImGui::SliderInt("###LocalPlayerAgility", &Settings::customLocalPlayerSettings.agility, 0, 99999, "Agility: %d");
+			ImGui::SliderInt((const char*)u8"###本地玩家魅力", &Settings::customLocalPlayerSettings.charisma, 0, 99999, (const char*)u8"魅力: %d");
 
-			ButtonToggle("Luck###LocalPlayerLuckEnabled", &Settings::customLocalPlayerSettings.luckEnabled);					ImGui::SameLine(235.0f);
+			ButtonToggle((const char*)u8"智力###本地玩家智力已启用", &Settings::customLocalPlayerSettings.intelligenceEnabled);
+
+			ImGui::SameLine(235.0f);
 			ImGui::SetNextItemWidth(224.0f);
-			ImGui::SliderInt("###LocalPlayerLuck", &Settings::customLocalPlayerSettings.luck, 0, 99999, "Luck: %d");
+
+			ImGui::SliderInt((const char*)u8"###本地玩家智力", &Settings::customLocalPlayerSettings.intelligence, 0, 99999, (const char*)u8"智力: %d");
+
+			ButtonToggle((const char*)u8"敏捷###本地玩家敏捷已启用", &Settings::customLocalPlayerSettings.agilityEnabled);
+
+			ImGui::SameLine(235.0f);
+			ImGui::SetNextItemWidth(224.0f);
+
+			ImGui::SliderInt((const char*)u8"###本地玩家敏捷", &Settings::customLocalPlayerSettings.agility, 0, 99999, (const char*)u8"敏捷: %d");
+
+			ButtonToggle((const char*)u8"幸运###本地玩家幸运已启用", &Settings::customLocalPlayerSettings.luckEnabled);					ImGui::SameLine(235.0f);
+			ImGui::SetNextItemWidth(224.0f);
+			ImGui::SliderInt((const char*)u8"###本地玩家幸运", &Settings::customLocalPlayerSettings.luck, 0, 99999, (const char*)u8"幸运: %d");
 		}
 
-		if (ImGui::CollapsingHeader("Character Settings"))
+		if (ImGui::CollapsingHeader((const char*)u8"角色设置"))
 		{
-			LargeButtonToggle("Character Appearance Editing Enabled###ChargenEditingEnabled", &Settings::characterEditor.enabled);
+			LargeButtonToggle((const char*)u8"角色外观编辑器已启用###角色编辑器已启用", &Settings::characterEditor.enabled);
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::SliderFloat("###ChargenThin", &Settings::characterEditor.thin, 0.0f, 1.0f, "Character Appearance (Thin): %f");
+			ImGui::SliderFloat((const char*)u8"###角色胖瘦", &Settings::characterEditor.thin, 0.0f, 1.0f, (const char*)u8"角色外观 (胖瘦): %f");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::SliderFloat("###ChargenMuscular", &Settings::characterEditor.muscular, 0.0f, 1.0f, "Character Appearance (Muscular): %f");
+			ImGui::SliderFloat((const char*)u8"###角色肌肉", &Settings::characterEditor.muscular, 0.0f, 1.0f, (const char*)u8"角色外观 (肌肉): %f");
 
 			ImGui::SetNextItemWidth(451.0f);
-			ImGui::SliderFloat("###ChargenLarge", &Settings::characterEditor.large, 0.0f, 1.0f, "Character Appearance (Large): %f");
+			ImGui::SliderFloat((const char*)u8"###角色大小", &Settings::characterEditor.large, 0.0f, 1.0f, (const char*)u8"角色外观 (大小): %f");
 		}
 		ImGui::EndTabItem();
 	}
@@ -1950,15 +1948,15 @@ void Gui::OverlayMenuTabPlayer()
 
 void Gui::OverlayMenuTabUtilities()
 {
-	if (ImGui::BeginTabItem("Utility###UtilityTab"))
+	if (ImGui::BeginTabItem((const char*)u8"工具###工具页面"))
 	{
-		if (ImGui::CollapsingHeader("Utility"))
+		if (ImGui::CollapsingHeader((const char*)u8"工具"))
 		{
-			ButtonToggle("Draw Local Player Data", &Settings::utilities.debugPlayer);
+			ButtonToggle((const char*)u8"绘制本地玩家数据", &Settings::utilities.debugPlayer);
 
 			ImGui::SameLine(235.0f);
 
-			ButtonToggle("ESP Debug Mode", &Settings::utilities.debugEsp);
+			ButtonToggle((const char*)u8"透视DEBUG模式", &Settings::utilities.debugEsp);
 
 			{
 				if (Settings::utilities.ptrFormId)
@@ -1967,7 +1965,7 @@ void Gui::OverlayMenuTabUtilities()
 					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-					if (ImGui::Button("Get Pointer###GetPointerEnabled", ImVec2(224.0f, 0.0f)))
+					if (ImGui::Button((const char*)u8"获取指针###获取指针已启用", ImVec2(224.0f, 0.0f)))
 						getPtrResult = ErectusMemory::GetPtr(Settings::utilities.ptrFormId);
 
 					ImGui::PopStyleColor(3);
@@ -1979,7 +1977,7 @@ void Gui::OverlayMenuTabUtilities()
 					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 					ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-					ImGui::Button("Get Pointer###GetPointerDisabled", ImVec2(224.0f, 0.0f));
+					ImGui::Button((const char*)u8"获取指针###获取指针已禁用", ImVec2(224.0f, 0.0f));
 					ImGui::PopItemFlag();
 
 					ImGui::PopStyleColor(3);
@@ -1990,7 +1988,7 @@ void Gui::OverlayMenuTabUtilities()
 
 			{
 				ImGui::SetNextItemWidth(80.0f);
-				if (ImGui::InputScalar("###PtrFormIdText", ImGuiDataType_U32, &Settings::utilities.ptrFormId,
+				if (ImGui::InputScalar((const char*)u8"###指针FormId数据", ImGuiDataType_U32, &Settings::utilities.ptrFormId,
 					nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal))
 					getPtrResult = 0;
 			}
@@ -2000,7 +1998,7 @@ void Gui::OverlayMenuTabUtilities()
 			{
 				ImGui::SetNextItemWidth(141.0f);
 				auto inputText = fmt::format("{:16X}", getPtrResult);
-				ImGui::InputText("###PtrPointerText", &inputText, ImGuiInputTextFlags_ReadOnly);
+				ImGui::InputText((const char*)u8"###指针数据", &inputText, ImGuiInputTextFlags_ReadOnly);
 			}
 
 			{
@@ -2010,7 +2008,7 @@ void Gui::OverlayMenuTabUtilities()
 					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-					if (ImGui::Button("Get Address###GetAddressEnabled", ImVec2(224.0f, 0.0f)))
+					if (ImGui::Button((const char*)u8"获取地址###获取地址已启用", ImVec2(224.0f, 0.0f)))
 						getAddressResult = ErectusMemory::GetAddress(Settings::utilities.addressFormId);
 
 					ImGui::PopStyleColor(3);
@@ -2022,7 +2020,7 @@ void Gui::OverlayMenuTabUtilities()
 					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 					ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-					ImGui::Button("Get Address###GetAddressDisabled", ImVec2(224.0f, 0.0f));
+					ImGui::Button((const char*)u8"获取地址###获取地址已禁用", ImVec2(224.0f, 0.0f));
 					ImGui::PopItemFlag();
 
 					ImGui::PopStyleColor(3);
@@ -2034,7 +2032,7 @@ void Gui::OverlayMenuTabUtilities()
 			{
 				ImGui::SetNextItemWidth(80.0f);
 
-				if (ImGui::InputScalar("###AddressFormIdText", ImGuiDataType_U32, &Settings::utilities.addressFormId,
+				if (ImGui::InputScalar((const char*)u8"###地址FormId数据", ImGuiDataType_U32, &Settings::utilities.addressFormId,
 					nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal))
 					getAddressResult = 0;
 			}
@@ -2045,29 +2043,29 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::SetNextItemWidth(141.0f);
 
 				auto inputText = fmt::format("{:16X}", getAddressResult);
-				ImGui::InputText("###AddressPointerText", &inputText, ImGuiInputTextFlags_ReadOnly);
+				ImGui::InputText((const char*)u8"###地址指针数据", &inputText, ImGuiInputTextFlags_ReadOnly);
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Reference Editor"))
+		if (ImGui::CollapsingHeader((const char*)u8"引用编辑器"))
 		{
-			ButtonToggle("Source FormId###SwapperSourceFormIdToggle", &swapperSourceToggle);
+			ButtonToggle((const char*)u8"源FormId###切换交换源FormId", &swapperSourceToggle);
 
 			ImGui::SameLine(235.0f);
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				ImGui::InputScalar("###SwapperSourceFormIdText", ImGuiDataType_U32, &Settings::swapper.sourceFormId,
+				ImGui::InputScalar((const char*)u8"###交换源FormId数据", ImGuiDataType_U32, &Settings::swapper.sourceFormId,
 					nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 			}
 
-			ButtonToggle("Destination FormId###SwapperDestinationFormIdToggle", &swapperDestinationToggle);
+			ButtonToggle((const char*)u8"目标FormId###切换交换目标FormId", &swapperDestinationToggle);
 
 			ImGui::SameLine(235.0f);
 
 			{
 				ImGui::SetNextItemWidth(224.0f);
-				ImGui::InputScalar("###SwapperDestinationFormIdText", ImGuiDataType_U32, &Settings::swapper.destinationFormId,
+				ImGui::InputScalar((const char*)u8"###交换目标FormId数据", ImGuiDataType_U32, &Settings::swapper.destinationFormId,
 					nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 			}
 
@@ -2077,7 +2075,7 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-				if (ImGui::Button("Edit Reference (Overwrite Destination)###EditReferenceEnabled", ImVec2(451.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"编辑引用 (重写目标)###编辑引用已启用", ImVec2(451.0f, 0.0f)))
 				{
 					if (ErectusMemory::ReferenceSwap(Settings::swapper.sourceFormId, Settings::swapper.destinationFormId))
 					{
@@ -2096,22 +2094,22 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 				ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-				ImGui::Button("Edit Reference (Overwrite Destination)###EditReferenceDisabled", ImVec2(451.0f, 0.0f));
+				ImGui::Button((const char*)u8"编辑引用 (重写目标)###编辑引用已禁用", ImVec2(451.0f, 0.0f));
 				ImGui::PopItemFlag();
 
 				ImGui::PopStyleColor(3);
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Item Transferring"))
+		if (ImGui::CollapsingHeader((const char*)u8"物品传输"))
 		{
-			SmallButtonToggle("Source###TransferSourceFormIdToggle", &transferSourceToggle);
+			SmallButtonToggle((const char*)u8"源###切换源物品FormId", &transferSourceToggle);
 
 			ImGui::SameLine(122.0f);
 
 			{
 				ImGui::SetNextItemWidth(110.0f);
-				ImGui::InputScalar("###TransferSourceFormIdText", ImGuiDataType_U32, &Settings::customTransferSettings.sourceFormId,
+				ImGui::InputScalar((const char*)u8"###源物品FormId数据", ImGuiDataType_U32, &Settings::customTransferSettings.sourceFormId,
 					nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 			}
 
@@ -2122,24 +2120,24 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-				if (ImGui::Button("Get Player###TransferSourceLocalPlayer", ImVec2(110.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"获取玩家###本地玩家源物品", ImVec2(110.0f, 0.0f)))
 					Settings::customTransferSettings.sourceFormId = ErectusMemory::GetLocalPlayerFormId();
 
 				ImGui::SameLine(349.0f);
 
-				if (ImGui::Button("Get STASH###TransferSourceSTASH", ImVec2(110.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"获取储物箱###源物品储物箱", ImVec2(110.0f, 0.0f)))
 					Settings::customTransferSettings.sourceFormId = ErectusMemory::GetStashFormId();
 
 				ImGui::PopStyleColor(3);
 			}
 
-			SmallButtonToggle("Destination###TransferDestinationFormIdToggle", &transferDestinationToggle);
+			SmallButtonToggle((const char*)u8"目标###切换目标物品FormId", &transferDestinationToggle);
 
 			ImGui::SameLine(122.0f);
 
 			{
 				ImGui::SetNextItemWidth(110.0f);
-				ImGui::InputScalar("###TransferDestinationFormIdText", ImGuiDataType_U32, &Settings::customTransferSettings.destinationFormId,
+				ImGui::InputScalar((const char*)u8"###目标物品FormId数据", ImGuiDataType_U32, &Settings::customTransferSettings.destinationFormId,
 					nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 			}
 
@@ -2148,11 +2146,11 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 				ImGui::SameLine(235.0f);
-				if (ImGui::Button("Get Player###TransferDestinationLocalPlayer", ImVec2(110.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"获取玩家###本地玩家目标物品", ImVec2(110.0f, 0.0f)))
 					Settings::customTransferSettings.destinationFormId = ErectusMemory::GetLocalPlayerFormId();
 
 				ImGui::SameLine(349.0f);
-				if (ImGui::Button("Get STASH###TransferDestinationSTASH", ImVec2(110.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"获取储物箱###目标物品储物箱", ImVec2(110.0f, 0.0f)))
 					Settings::customTransferSettings.destinationFormId = ErectusMemory::GetStashFormId();
 				ImGui::PopStyleColor(3);
 			}
@@ -2173,7 +2171,7 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-				if (ImGui::Button("Transfer Items###TransferItemsEnabled", ImVec2(451.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"传输物品###传输物品已启用", ImVec2(451.0f, 0.0f)))
 					ErectusMemory::TransferItems(Settings::customTransferSettings.sourceFormId, Settings::customTransferSettings.destinationFormId);
 
 				ImGui::PopStyleColor(3);
@@ -2185,51 +2183,51 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 				ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-				ImGui::Button("Transfer Items###TransferItemsDisabled", ImVec2(451.0f, 0.0f));
+				ImGui::Button((const char*)u8"传输物品###传输物品已禁用", ImVec2(451.0f, 0.0f));
 				ImGui::PopItemFlag();
 
 				ImGui::PopStyleColor(3);
 			}
 
-			LargeButtonToggle("Use Item Transfer Whitelist", &Settings::customTransferSettings.useWhitelist);
-			LargeButtonToggle("Use Item Transfer Blacklist", &Settings::customTransferSettings.useBlacklist);
+			LargeButtonToggle((const char*)u8"使用物品传输白名单", &Settings::customTransferSettings.useWhitelist);
+			LargeButtonToggle((const char*)u8"使用物品传输黑名单", &Settings::customTransferSettings.useBlacklist);
 
-			if (ImGui::CollapsingHeader("Item Transfer Whitelist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"物品传输白名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Transfer Whitelist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"传输白名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::customTransferSettings.whitelisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ItemTransferWhitelist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###物品传输白名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::customTransferSettings.whitelist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 
-			if (ImGui::CollapsingHeader("Item Transfer Blacklist Settings"))
+			if (ImGui::CollapsingHeader((const char*)u8"物品传输黑名单设置"))
 			{
 				for (auto i = 0; i < 32; i++)
 				{
-					auto toggleLabel = fmt::format("Transfer Blacklist Slot: {0:d}", i);
+					auto toggleLabel = fmt::format((const char*)u8"传输黑名单位置: {0:d}", i);
 					ButtonToggle(toggleLabel.c_str(), &Settings::customTransferSettings.blacklisted[i]);
 
 					ImGui::SameLine(235.0f);
 					ImGui::SetNextItemWidth(224.0f);
 
-					auto inputLabel = fmt::format("###ItemTransferBlacklist{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###物品传输黑名单{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::customTransferSettings.blacklist[i],
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Nuke Codes"))
+		if (ImGui::CollapsingHeader((const char*)u8"核弹密码"))
 		{
-			ButtonToggle("Automatic Nuke Codes", &Settings::customNukeCodeSettings.automaticNukeCodes);
+			ButtonToggle((const char*)u8"自动核弹密码", &Settings::customNukeCodeSettings.automaticNukeCodes);
 
 			ImGui::SameLine(235.0f);
 
@@ -2238,19 +2236,19 @@ void Gui::OverlayMenuTabUtilities()
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-				if (ImGui::Button("Get Nuke Codes", ImVec2(224.0f, 0.0f)))
+				if (ImGui::Button((const char*)u8"获取核弹密码", ImVec2(224.0f, 0.0f)))
 					ErectusMemory::UpdateNukeCodes();
 
 				ImGui::PopStyleColor(3);
 			}
 
-			auto text = format("{} - Alpha", fmt::join(ErectusMemory::alphaCode, " "));
+			auto text = format((const char*)u8"{} - A点", fmt::join(ErectusMemory::alphaCode, " "));
 			ImGui::Text(text.c_str());
 
-			text = format("{} - Bravo", fmt::join(ErectusMemory::bravoCode, " "));
+			text = format((const char*)u8"{} - B点", fmt::join(ErectusMemory::bravoCode, " "));
 			ImGui::Text(text.c_str());
 
-			text = format("{} - Charlie", fmt::join(ErectusMemory::charlieCode, " "));
+			text = format((const char*)u8"{} - C点", fmt::join(ErectusMemory::charlieCode, " "));
 			ImGui::Text(text.c_str());
 		}
 
@@ -2260,16 +2258,16 @@ void Gui::OverlayMenuTabUtilities()
 
 void Gui::OverlayMenuTabTeleporter()
 {
-	if (ImGui::BeginTabItem("Teleporter###TeleporterTab"))
+	if (ImGui::BeginTabItem((const char*)u8"传送###传送页面"))
 	{
 		for (auto i = 0; i < 16; i++)
 		{
-			auto teleportHeaderText = fmt::format("Teleport Slot: {0:d}", i);
+			auto teleportHeaderText = fmt::format((const char*)u8"传送位置: {0:d}", i);
 			if (ImGui::CollapsingHeader(teleportHeaderText.c_str()))
 			{
 				{
 					ImGui::SetNextItemWidth(110.0f);
-					auto inputLabel = fmt::format("###TeleportDestinationX{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###传送目标X{:d}", i);
 					ImGui::InputFloat(inputLabel.c_str(), &Settings::teleporter.entries[i].destination[0]);
 				}
 
@@ -2277,7 +2275,7 @@ void Gui::OverlayMenuTabTeleporter()
 
 				{
 					ImGui::SetNextItemWidth(110.0f);
-					auto inputLabel = fmt::format("###TeleportDestinationY{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###传送目标Y{:d}", i);
 					ImGui::InputFloat(inputLabel.c_str(), &Settings::teleporter.entries[i].destination[1]);
 				}
 
@@ -2285,7 +2283,7 @@ void Gui::OverlayMenuTabTeleporter()
 
 				{
 					ImGui::SetNextItemWidth(110.0f);
-					auto inputLabel = fmt::format("###TeleportDestinationZ{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###传送目标Z{:d}", i);
 					ImGui::InputFloat(inputLabel.c_str(), &Settings::teleporter.entries[i].destination[2]);
 				}
 
@@ -2293,13 +2291,13 @@ void Gui::OverlayMenuTabTeleporter()
 
 				{
 					ImGui::SetNextItemWidth(110.0f);
-					auto inputLabel = fmt::format("###TeleportDestinationW{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###传送目标W{:d}", i);
 					ImGui::InputFloat(inputLabel.c_str(), &Settings::teleporter.entries[i].destination[3]);
 				}
 
 				{
 					ImGui::SetNextItemWidth(110.0f);
-					auto inputLabel = fmt::format("###TeleportCellFormId{:d}", i);
+					auto inputLabel = fmt::format((const char*)u8"###传送区块FormId{:d}", i);
 					ImGui::InputScalar(inputLabel.c_str(), ImGuiDataType_U32, &Settings::teleporter.entries[i].cellFormId,
 						nullptr, nullptr, "%08lX", ImGuiInputTextFlags_CharsHexadecimal);
 				}
@@ -2307,7 +2305,7 @@ void Gui::OverlayMenuTabTeleporter()
 				ImGui::SameLine(122.0f);
 
 				{
-					auto buttonLabel = fmt::format("Set Position###TeleportDestination{:d}", i);
+					auto buttonLabel = fmt::format((const char*)u8"设定位置###传送目标{:d}", i);
 					if (!Settings::teleporter.entries[i].disableSaving)
 					{
 						ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 0.3f));
@@ -2336,7 +2334,7 @@ void Gui::OverlayMenuTabTeleporter()
 				ImGui::SameLine(235.0f);
 
 				{
-					auto buttonLabel = fmt::format("Lock###DisableSaving{:d}", i);
+					auto buttonLabel = fmt::format((const char*)u8"锁定###禁用存档{:d}", i);
 					SmallButtonToggle(buttonLabel.c_str(), &Settings::teleporter.entries[i].disableSaving);
 				}
 
@@ -2348,7 +2346,7 @@ void Gui::OverlayMenuTabTeleporter()
 					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.4f));
 					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.5f));
 
-					auto buttonLabel = fmt::format("Teleport###TeleportRequestEnabled{:d}", i);
+					auto buttonLabel = fmt::format((const char*)u8"传送###传送请求已启用{:d}", i);
 					if (ImGui::Button(buttonLabel.c_str(), ImVec2(110.0f, 0.0f)))
 						ErectusMemory::RequestTeleport(i);
 					ImGui::PopStyleColor(3);
@@ -2360,7 +2358,7 @@ void Gui::OverlayMenuTabTeleporter()
 					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
 					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.5f));
 
-					auto buttonLabel = fmt::format("Teleport###TeleportRequestDisabled{:d}", i);
+					auto buttonLabel = fmt::format((const char*)u8"传送###传送请求已禁用{:d}", i);
 					ImGui::Button(buttonLabel.c_str(), ImVec2(110.0f, 0.0f));
 					ImGui::PopStyleColor(3);
 					ImGui::PopItemFlag();
@@ -2373,9 +2371,9 @@ void Gui::OverlayMenuTabTeleporter()
 
 void Gui::OverlayMenuTabBitMsgWriter()
 {
-	if (ImGui::BeginTabItem("BitMsgWriter###BitMsgWriterTab"))
+	if (ImGui::BeginTabItem((const char*)u8"位信息写入###位信息写入页面"))
 	{
-		LargeButtonToggle("Message Sender Enabled", &ErectusMemory::allowMessages);
+		LargeButtonToggle((const char*)u8"信息发送已启用", &ErectusMemory::allowMessages);
 
 		ImGui::EndTabItem();
 	}
@@ -2390,18 +2388,18 @@ void Gui::OverlayMenu()
 	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(App::windowSize[0]), static_cast<float>(App::windowSize[1])));
 	ImGui::SetNextWindowCollapsed(false);
 
-	if (ImGui::Begin("Erectus - Overlay Menu", nullptr,
+	if (ImGui::Begin((const char*)u8"Erectus - 图层菜单", nullptr,
 		ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysVerticalScrollbar))
 	{
 		if (ImGui::BeginMenuBar())
 		{
-			if (ImGui::MenuItem("Exit"))
+			if (ImGui::MenuItem((const char*)u8"退出"))
 				App::CloseWnd();
 
-			if (ImGui::MenuItem("Process Menu"))
+			if (ImGui::MenuItem((const char*)u8"主菜单"))
 				ErectusProcess::SetProcessMenu();
 
-			if (ImGui::MenuItem("Overlay"))
+			if (ImGui::MenuItem((const char*)u8"图层"))
 			{
 				if (!App::SetOverlayPosition(false, true))
 					ErectusProcess::SetProcessMenu();
@@ -2410,7 +2408,7 @@ void Gui::OverlayMenu()
 			ImGui::EndMenuBar();
 		}
 
-		if (ImGui::BeginTabBar("###OverlayMenuTabBar", ImGuiTabBarFlags_None))
+		if (ImGui::BeginTabBar((const char*)u8"###图层菜单选项卡", ImGuiTabBarFlags_None))
 		{
 			OverlayMenuTabEsp();
 			OverlayMenuTabLoot();
@@ -2430,6 +2428,9 @@ void Gui::OverlayMenu()
 bool Gui::Init()
 {
 	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImFont* font = io.Fonts->AddFontFromFileTTF((const char*)u8"D:/simyou.ttf", 14.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+
 	if (!ImGui_ImplWin32_Init(App::appHwnd))
 		return false;
 
