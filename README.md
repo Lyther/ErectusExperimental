@@ -26,11 +26,14 @@
 
  3. Open the program, select `Fallout 76.exe` in the list, and choose `主菜单`.
 
-  4. You can choose any function, press `CTRL+ENTER` anytime to open/close the menu.
+ 4. You can choose any function, press `CTRL+ENTER` anytime to open/close the menu.
 
 ​	**重要：在使用前请阅读指南！**
 
-1. 安装`simyou.ttf`字体库，并将其放在根目录`D:\`下。
+ 1. 安装`simyou.ttf`字体库，并将其放在根目录`D:\`下。
+
  2. 确认你的计算机已经安装了`幼圆`字体。
+
  3. 打开程序，在列表中选择`Fallout 76.exe`，之后打开主菜单。
+
  4. 选择你希望的功能，按下`CTRL+ENTER`开启或关闭菜单。
