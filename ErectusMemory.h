@@ -855,7 +855,7 @@ private:
 	static bool CheckReferenceItem(const TesItem& referenceData);
 	static void GetCustomEntityData(const TesItem& referenceData, DWORD64* entityFlag, DWORD64* entityNamePtr, int* enabledDistance, bool checkScrap, bool checkIngredient);
 
-	static std::string GetEntityName(DWORD64 ptr);
+	static std::string GetEntityName(DWORD64 ptr, bool gbk);
 
 	static bool Wpm(DWORD64 dst, void* src, size_t size);
 	static DWORD64 AllocEx(size_t size);

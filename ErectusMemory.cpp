@@ -990,7 +990,7 @@ bool ErectusMemory::GetActorSnapshotComponentData(const TesObjectRefr& entityDat
 	return Rpm(actorCoreBufferB, &*actorSnapshotComponentData, sizeof(ActorSnapshotComponent));
 }
 
-std::string ErectusMemory::GetEntityName(const DWORD64 ptr)
+std::string ErectusMemory::GetEntityName(const DWORD64 ptr, bool gbk)
 {
 	std::string result{};
 
@@ -1022,7 +1022,8 @@ std::string ErectusMemory::GetEntityName(const DWORD64 ptr)
 	if (!Rpm(namePtr + 0x18, name.get(), nameSize))
 		return result;
 
-	result = Utils::UTF8ToGBK(name.get());
+	if (gbk) result = Utils::UTF8ToGBK(name.get());
+	else result = name.get();
 	return result;
 }
 
@@ -1075,7 +1076,7 @@ bool ErectusMemory::UpdateBufferEntityList()
 		if (normalDistance > enabledDistance)
 			continue;
 
-		auto entityName = GetEntityName(entityNamePtr);
+		auto entityName = GetEntityName(entityNamePtr, true);
 		if (entityName.empty())
 		{
 			entityFlag |= CUSTOM_ENTRY_UNNAMED;
@@ -3304,7 +3305,7 @@ std::string ErectusMemory::GetInstancedItemName(const DWORD64 displayPtr)
 		if (strcmp(rttiNameCheck, ".?AVExtraTextDisplayData@@") != 0)
 			continue;
 
-		result = GetEntityName(extraTextDisplayDataData.instancedNamePtr);
+		result = GetEntityName(extraTextDisplayDataData.instancedNamePtr, false);
 		return result;
 	}
 
@@ -3370,7 +3371,7 @@ std::unordered_map<int, std::string> ErectusMemory::GetFavoritedWeapons()
 		auto weaponName = GetInstancedItemName(itemData[i].displayPtr);
 		if (weaponName.empty())
 		{
-			weaponName = GetEntityName(referenceData.namePtr0098);
+			weaponName = GetEntityName(referenceData.namePtr0098, false);
 			if (weaponName.empty())
 				continue;
 		}
@@ -3425,7 +3426,7 @@ std::string ErectusMemory::GetFavoritedWeaponText(const BYTE index)
 		auto tempWeaponName = GetInstancedItemName(itemData[i].displayPtr);
 		if (tempWeaponName.empty())
 		{
-			tempWeaponName = GetEntityName(referenceData.namePtr0098);
+			tempWeaponName = GetEntityName(referenceData.namePtr0098, false);
 			if (tempWeaponName.empty())
 				continue;
 		}
